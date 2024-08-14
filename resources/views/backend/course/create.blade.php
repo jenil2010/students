@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/flatpickr/flatpickr.css')}}" />
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/tagify/tagify.css')}}" />
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/@form-validation/umd/styles/index.min.css')}}" />
 @section('content')
 
 
@@ -13,19 +14,29 @@
     <div class="card">
       <h5 class="card-header">Add Course</h5>
       <div class="card-body">
-        <form class="needs-validation was-validated" novalidate="" action="{{ route('course.store') }}" method="POST">
+        <form novalidate="" action="{{ route('course.store') }}" method="POST">
           @csrf
           <div class="form-floating form-floating-outline mb-7">
             <input type="text" class="form-control" id="bs-validation-courseName" name="course_name" required="" value="{{old('course_name')}}">
             <label for="bs-validation-courseName">Course Name</label>
-            <div class="valid-feedback"> Looks good! </div>
-            <div class="invalid-feedback"> Please enter Course name. </div>
+            <small class="text-red-600">@error('course_name')
+              {{$message}}
+          @enderror</small>
           </div>
+          {{-- <div class="form-floating form-floating-outline mb-6">
+            <input type="text" class="form-control" id="basic-default-name" placeholder="Course Name"
+                 name="course_name" value="{{old('course_name')}}">
+            <label for="basic-default-name">Course Name</label>
+            <small class="text-red-600">@error('first_name')
+                {{$message}}
+            @enderror</small>
+        </div> --}}
           <div class="form-floating form-floating-outline mb-7">
             <input type="text" id="bs-validation-email" class="form-control" name="duration" required="" value="{{old('duration')}}">
             <label for="bs-validation-email">Duration</label>
-            <div class="valid-feedback"> Looks good! </div>
-            <div class="invalid-feedback"> Please enter Duration </div>
+            <small class="text-red-600">@error('duration')
+              {{$message}}
+          @enderror</small>
           </div>
  
           <div class="form-floating form-floating-outline mb-7">
@@ -35,8 +46,9 @@
               <option value="0"  {{ old('status') === '0' ? 'selected' : '' }}>Disable</option>
             </select>
             <label class="form-label" for="bs-validation-country">Status</label>
-            <div class="valid-feedback"> Looks good! </div>
-            <div class="invalid-feedback"> Please select your Status </div>
+            <small class="text-red-600">@error('status')
+              {{$message}}
+          @enderror</small>
           </div>
           <div class="form-floating form-floating-outline mb-7">
             <select class="form-select" id="bs-validation-country" name="semesters" required="">
@@ -53,8 +65,9 @@
               <option value="10"{{ old('semesters') === '10' ? 'selected' : '' }}>Sem-10</option>
             </select>
             <label class="form-label" for="bs-validation-country">Semester</label>
-            <div class="valid-feedback"> Looks good! </div>
-            <div class="invalid-feedback"> Please select your Semester </div>
+            <small class="text-red-600">@error('semesters')
+              {{$message}}
+          @enderror</small>
           </div>
           <div class="row">
             <div class="col-12">
@@ -76,26 +89,21 @@
   <script src="{{asset('assets/vendor/libs/tagify/tagify.js')}}"></script>
   <script src="{{asset('assets/js/form-validation.js')}}"></script>
 
- <script>
-
-  document.addEventListener('DOMContentLoaded', function () {
-      const form = document.getElementById('formValidationExamples');
-      
-form.addEventListener('submit', function (event) {
-    // Prevent form submission if there are validation errors
-    if (!form.checkValidity()) {
-        event.preventDefault();
-        event.stopPropagation();
-    }
-    
-    // Add Bootstrap’s invalid class to form fields with validation errors
-    form.classList.add('"invalid-feedback');
-});
-
-// Optional: To clear validation messages on form reset
-form.addEventListener('reset', function () {
-    form.classList.remove('valid-feedback');
-});
-});
-</script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('.needs-validation');
+        
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        });
+  
+        form.addEventListener('reset', function () {
+            form.classList.remove('was-validated');
+        });
+    });
+  </script>
 @endsection

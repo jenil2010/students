@@ -8,19 +8,21 @@
     <div class="card">
       <h5 class="card-header">Add Course</h5>
       <div class="card-body">
-        <form class="needs-validation was-validated" novalidate="" action="{{ route('course.update',$id) }}" method="POST">
+        <form action="{{ route('course.update',$id) }}" method="POST">
           @csrf
           <div class="form-floating form-floating-outline mb-6">
             <input type="text" class="form-control" id="bs-validation-courseName" name="course_name" required value="{{ old('course_name',$course->course_name) }}">
             <label for="bs-validation-courseName">Course Name</label>
-            <div class="valid-feedback"> Looks good! </div>
-            <div class="invalid-feedback"> Please enter Course name. </div>
+            <small class="text-red-600">@error('course_name')
+              {{$message}}
+          @enderror</small>
           </div>
           <div class="form-floating form-floating-outline mb-6">
             <input type="text" id="bs-validation-duration" class="form-control" name="duration" value="{{ old('duration',$course->duration) }}" required>
             <label for="bs-validation-duration">Duration</label>
-            <div class="valid-feedback"> Looks good! </div>
-            <div class="invalid-feedback"> Please enter Duration </div>
+            <small class="text-red-600">@error('duration')
+              {{$message}}
+          @enderror</small>
           </div>
  
           <div class="form-floating form-floating-outline mb-6">
@@ -30,8 +32,9 @@
               <option value="0" {{ old('status',$course->status) === 0 ? 'selected' : '' }}>Disable</option>
             </select>
             <label class="form-label" for="bs-validation-status">Status</label>
-            <div class="valid-feedback"> Looks good! </div>
-            <div class="invalid-feedback"> Please select your Status </div>
+            <small class="text-red-600">@error('status')
+              {{$message}}
+          @enderror</small>
           </div>
           <div class="form-floating form-floating-outline mb-6">
             <select class="form-select" id="bs-validation-semesters" name="semesters" required>
@@ -48,8 +51,9 @@
               <option value="10" {{ old('semesters',$course->semesters) === '10' ? 'selected' : '' }}>Sem-10</option>
             </select>
             <label class="form-label" for="bs-validation-semesters">Semester</label>
-            <div class="valid-feedback"> Looks good! </div>
-            <div class="invalid-feedback"> Please select your Semester </div>
+            <small class="text-red-600">@error('semesters')
+              {{$message}}
+          @enderror</small>
           </div>
           <div class="row">
             <div class="col-12">

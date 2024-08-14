@@ -57,7 +57,7 @@
                                 <select class="form-select" id="basic-default-country" required="" name="warden_id">
                                     <option value="">Select Warden</option>
                                     @foreach ($warden as $item)
-                                    <option value="{{$item->id}}" {{old('warden_id',$item->warden_id) === $item->id ? 'selected' : ''}}>{{$item->first_name.''.$item->last_name}}</option>      
+                                    <option value="{{$item->id}}" {{old('warden_id',$item->id) === $item->id ? 'selected' : ''}}>{{$item->first_name.''.$item->last_name}}</option>      
                                     @endforeach
                                 </select>
                                 <label for="basic-default-country">Warden</label>

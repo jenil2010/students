@@ -34,12 +34,12 @@ class wardenController extends Controller
     {
         $warden = $request->all();
 
-        $validation = Validator::make($warden,[
-            'first_name' => 'required',
-            'last_name' => 'required',
+        $validation = validator($warden,[
+            'first_name' => 'required|alpha:ascii',
+            'last_name' => 'required|alpha:ascii',
             'email' => 'required|email',
-            'phone' => 'required|integer|digits:10',
-            'dob' => 'required',
+            'phone' => 'required|numeric|digits:10',
+            'dob' => 'required|date',
             'gender' =>'required',
             'address' => 'required',
             'experience' => 'required',

@@ -35,7 +35,7 @@ class CourseController extends Controller
     {
         $params = $request->all();
         
-        $validation = validator::make($params,[
+        $validation = validator($params,[
             'course_name' => 'required',
             'duration' => 'required',
             'status' => 'required',

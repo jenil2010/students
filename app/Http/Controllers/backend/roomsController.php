@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\beds;
 use App\Models\hostels;
 use App\Models\rooms;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
@@ -40,7 +41,7 @@ class roomsController extends Controller
     {
         $rooms = $request->all();
 
-        $validation = Validator::make($rooms,[
+        $validation = validator($rooms,[
             'hostel_id' => 'required',
             'room_number' => 'required',
             'status' => 'required'
@@ -101,16 +102,13 @@ class roomsController extends Controller
     public function destroy(string $id)
     {
         $rooms = rooms::find($id);
-        // $beds = beds::find($id);
-        // dd();
-        dd($rooms->beds()->exists());
-        // if($rooms->exists() == 'null')
-        // {
-        //     $rooms->delete();
-        //     return redirect()->back()->with('status', 'Room deleted successfully.');
-        // } else {
-        //     return redirect()->back()->with('status', 'Cannot delete a Booked room .');
-        // }
+        $beds = DB::table('beds')->find($id);
+        if($beds == ''){
+        $rooms->delete();
+        return redirect()->back()->with(['status' => 'Room deleted successfully.' , 'alert-type' => 'success']);
+        } else {
+            return redirect()->back()->with(['status' => 'Cannot delete a Booked room .', 'alert-type' => 'warning']);
+        }
     }
 
     public function data()

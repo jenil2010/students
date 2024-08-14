@@ -42,7 +42,7 @@ class bedsController extends Controller
     {
     
         $beds = $request->all(); 
-        $validation = Validator::make($beds,[
+        $validation = validator($beds,[
             'hostel_id' => 'required',
             'room_id' => 'required',
             'bed_number' => 'required',

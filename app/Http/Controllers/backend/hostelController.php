@@ -37,7 +37,7 @@ class hostelController extends Controller
     {
         $hostel = $request->all();
 
-        $validation = Validator::make($hostel,[
+        $validation = validator($hostel,[
             'hostel_name' => 'required',
             'location' => 'required',
             'contact_number' => 'required|integer|digits:10',

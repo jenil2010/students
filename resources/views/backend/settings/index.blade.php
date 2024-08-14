@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <div class="container-xxl d-flex">
+    <div class="container-xxl h-100">
         <div class="col-md">
             <div class="card">
                 @if (session('status'))
@@ -25,7 +25,7 @@
                         <div class="grid grid-cols-2 gap-4">
 
                             <div class="form-floating form-floating-outline mb-6 col-auto">
-                                <input type="text" class="form-control" id="basic-default-name" placeholder="Hostel Name"
+                                <input type="text" class="form-control" id="basic-default-name" placeholder="Old Admission Label"
                                     required="" value="{{ $oldData ?? '' }}" name="setting[3][value]">
                                 <label for="basic-default-name">Old Admission Label</label>
                                 <small class="text-red">
@@ -35,7 +35,7 @@
                                 </small>
                             </div>
                             <div class="form-floating form-floating-outline mb-6 col-auto">
-                                <input type="text" class="form-control" id="basic-default-name" placeholder="Hostel Name"
+                                <input type="text" class="form-control" id="basic-default-name" placeholder="New Admission Label"
                                     required="" value="{{ $newData ?? '' }}" name="setting[2][value]">
                                 <label for="basic-default-name">New Admission Label</label>
                                 <small class="text-red">
