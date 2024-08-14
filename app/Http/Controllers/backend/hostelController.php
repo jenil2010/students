@@ -51,7 +51,7 @@ class hostelController extends Controller
         }
 
         hostels::create($hostel);
-        return redirect()->back();
+        return redirect()->route('hostel.index')->with(['status' => 'Hostel is Created Succesfully' , 'alert-type' => 'success']);
     }
 
     /**
@@ -95,7 +95,7 @@ class hostelController extends Controller
         }
 
         $hostel->update($params);
-        return redirect()->route('hostel.index');
+        return redirect()->route('hostel.index')->with(['status' => 'Hostel is Updated Succesfully' , 'alert-type' => 'success']);
 
     }
 
@@ -106,12 +106,13 @@ class hostelController extends Controller
     {
         $hostel = hostels::find($id);
         $hostel->delete();
-        return redirect()->route('hostel.index');
+        return redirect()->route('hostel.index')->with(['status' => 'Hostel is Deleted Succesfully' , 'alert-type' => 'danger']);
 
     }
     public function data()
     {
-        $hostel = hostels::query()->get();
+        $warden = wardens::all();
+        $hostel = hostels::with('warden')->get();
         return DataTables::of($hostel)->make(true);
         // return redirect()->route('hostel.index');
 

@@ -4,6 +4,7 @@ use App\Http\Controllers\backend\bedsController;
 use App\Http\Controllers\backend\CourseController;
 use App\Http\Controllers\backend\hostelController;
 use App\Http\Controllers\backend\roomsController;
+use App\Http\Controllers\backend\SettingsController;
 use App\Http\Controllers\backend\wardenController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -74,11 +75,17 @@ Route::middleware('auth')->group(function () {
         Route::get('/index',[bedsController::class, 'index'])->name('beds.index');
         Route::get('/create',[bedsController::class, 'create'])->name('beds.create');
         Route::post('/store',[bedsController::class, 'store'])->name('beds.store');
+        Route::post('/getrooms',[bedsController::class, 'getRooms'])->name('beds.rooms');
         Route::get('/edit/{id}',[bedsController::class, 'edit'])->name('beds.edit');
         Route::post('/update/{id}',[bedsController::class, 'update'])->name('beds.update');
         Route::get('/delete/{id}',[bedsController::class, 'destroy'])->name('beds.delete');
         Route::get('/data',[bedsController::class, 'data'])->name('beds.data');
 
+    });
+
+    Route::group(['prefix' => 'Settings'], function(){
+        Route::get('/index',[SettingsController::class, 'index'])->name('setting.index');
+        Route::post('/store',[SettingsController::class, 'store'])->name('setting.store');
     });
 });
 

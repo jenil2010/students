@@ -13,7 +13,7 @@
                             <select class="form-select" id="basic-default-country" required="" name="hostel_id">
                                 <option value="">Select Hostel</option>
                                 @foreach ($hostel as $item)
-                                <option value="{{$item->id}}" {{old('hostel_id',$item->hostel_id) === $item->id ? 'selected' : ''}}>{{$item->hostel_name}}</option>
+                                <option value="{{$item->id}}" {{old('hostel_id',$item->id) === $item->id ? 'selected' : ''}}>{{$item->hostel_name}}</option>
                                     
                                 @endforeach
                             </select>

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\beds;
 use App\Models\hostels;
 use App\Models\rooms;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
 
 class roomsController extends Controller
 {
@@ -15,7 +17,10 @@ class roomsController extends Controller
      */
     public function index()
     {
-        //
+        $rooms = rooms::all();
+        $hostel = hostels::all();
+        // dd($hostel);
+        return view('backend.rooms.index',compact('rooms','hostel'));
     }
 
     /**
@@ -46,7 +51,7 @@ class roomsController extends Controller
         }
 
         rooms::create($rooms);
-        return redirect()->back();
+        return redirect()->route('rooms.index')->with(['status' => 'Room is Created Succesfully' , 'alert-type' => 'success']);
     }
 
     /**
@@ -87,7 +92,7 @@ class roomsController extends Controller
         }
 
         $rooms->update($params);
-        return redirect()->back();
+        return redirect()->route('rooms.index')->with(['status' => 'Room is Updated Succesfully' , 'alert-type' => 'success']);
     }
 
     /**
@@ -96,6 +101,23 @@ class roomsController extends Controller
     public function destroy(string $id)
     {
         $rooms = rooms::find($id);
-        $rooms->delete();
+        // $beds = beds::find($id);
+        // dd();
+        dd($rooms->beds()->exists());
+        // if($rooms->exists() == 'null')
+        // {
+        //     $rooms->delete();
+        //     return redirect()->back()->with('status', 'Room deleted successfully.');
+        // } else {
+        //     return redirect()->back()->with('status', 'Cannot delete a Booked room .');
+        // }
+    }
+
+    public function data()
+    {
+        $hostel = hostels::all();
+        $warden = rooms::with('hostel')->get();
+        return DataTables::of($warden)  
+            ->make(true);
     }
 }

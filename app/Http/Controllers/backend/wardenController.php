@@ -53,7 +53,7 @@ class wardenController extends Controller
         }
 
         wardens::create($warden);
-        return redirect()->back();
+        return redirect()->route('warden.index')->with(['status' => 'Warden is Created Succesfully', 'alert-type' => 'success']);
     }
 
     /**
@@ -101,7 +101,7 @@ class wardenController extends Controller
         }
 
         $warden->update($params);
-        return redirect()->route('warden.index');
+        return redirect()->route('warden.index')->with(['status' => 'Warden is Updated Succesfully', 'alert-type' => 'success']);
 
     }
 
@@ -112,13 +112,13 @@ class wardenController extends Controller
     {
         $warden = wardens::find($id);
         $warden->delete();
-        return redirect()->route('warden.index');
+        return redirect()->route('warden.index')->with(['status' => 'Warden is Deleted Succesfully' , 'alert-type' => 'danger']);
     }
 
     public function data()
     {
-        $courses = wardens::query()->get();
-        return DataTables::of($courses)
+        $warden = wardens::query()->get();
+        return DataTables::of($warden)
             ->make(true);
     }
 }

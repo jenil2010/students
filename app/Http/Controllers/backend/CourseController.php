@@ -47,7 +47,7 @@ class CourseController extends Controller
         }
 
         course::create($params);
-        return redirect()->back();
+        return redirect()->route('course.index')->with(['status' => 'Course Created Successfully.' , 'alert-type' => 'success']);
     }
 
     /**
@@ -90,7 +90,7 @@ class CourseController extends Controller
 
         $course->update($params);
 
-        return redirect()->back();
+        return redirect()->route('course.index')->with(['status' => 'Course Updated Succesfully', 'alert-type' => 'success']);
 
     }
 
@@ -101,6 +101,7 @@ class CourseController extends Controller
     {
         $course = course::find($id);
         $course->delete();
+        return redirect()->route('course.index')->with(['status' => 'Course Deleted Successfully.' , 'alert-type' => 'danger']);
     }
 
     public function data()
@@ -108,19 +109,8 @@ class CourseController extends Controller
 
         
            
-        $courses = Course::select(['id', 'course_name', 'status', 'semesters']);
-
-        return DataTables::of($courses)
-            ->editColumn('status', function($course) {
-                $statusClass = $course->status == 'Active' ? 'label-success' : 'label-danger';
-                return '<span class="label ' . $statusClass . '">' . $course->status . '</span>';
-            })
-            ->addColumn('action', function($course) {
-                return '<a href="'.route('course.edit', $course->id).'" class="btn btn-primary btn-sm">Edit</a>
-                        <a href="'.route('course.delete', $course->id).'" class="btn btn-danger btn-sm">Delete</a>';
-            })
-            ->rawColumns(['status', 'action'])
-            ->make(true);
+        $course = course::query()->get();
+        return DataTables::of($course)->make(true);
     }
     
 }

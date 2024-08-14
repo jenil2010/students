@@ -8,6 +8,7 @@ use App\Models\hostels;
 use App\Models\rooms;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
 
 class bedsController extends Controller
 {
@@ -16,7 +17,10 @@ class bedsController extends Controller
      */
     public function index()
     {
-        //
+        $beds = beds::all();
+        $hostel = hostels::all();
+        $rooms = rooms::all();
+        return view('backend.beds.index',compact('beds','hostel','rooms'));
     }
 
     /**
@@ -26,14 +30,8 @@ class bedsController extends Controller
     {
 
         $hostel = hostels::all();
-        $hostelId = $request->input('hostel_id');
-        $rooms = [];
-
-        if ($hostelId) {
-            $rooms = rooms::where('hostel_id', $hostelId)->get();
-        }
-
-        // return view('hostel_form', compact('rooms'));
+        $rooms = collect();
+        // dd($rooms);
         return view('backend.beds.create',compact('hostel','rooms'));
     }
 
@@ -42,11 +40,7 @@ class bedsController extends Controller
      */
     public function store(Request $request)
     {
-        $HostelId = $request->input('hostel_id');
-        $rooms = null;
-        if ($HostelId) {
-            $rooms = rooms::where('hostel_id',$HostelId)->get();
-        }
+    
         $beds = $request->all(); 
         $validation = Validator::make($beds,[
             'hostel_id' => 'required',
@@ -56,12 +50,22 @@ class bedsController extends Controller
         ]);
 
         if($validation->fails()){
-            $rooms = rooms::where('hostel_id', $request->input('hostel_id'))->get();
-            return redirect()->back()->withErrors($validation)->withInput()->with('rooms',$rooms);
+            // $rooms = rooms::where('hostel_id', $request->input('hostel_id'))->get();
+            return redirect()->back()->withErrors($validation)->withInput();
         }
 
         beds::create($beds);
-        return redirect()->back();
+        return redirect()->route('beds.index')->with(['status' => 'Bed is Created Succesfully' , 'alert-type' => 'success']);
+    }
+
+    public function getRooms(Request $request){
+        if($request->hostel_id > 0){
+            $rooms = rooms::where('hostel_id',$request->hostel_id)->get();
+        } else{
+            $rooms = rooms::all();
+        }
+
+        return response()->json($rooms);
     }
 
     /**
@@ -79,7 +83,9 @@ class bedsController extends Controller
     {
         $beds = beds::find($id);
         $hostel = hostels::all();
-        $rooms = rooms::all();
+        $rooms = collect();
+        // dd($rooms);
+
         return view('backend.beds.update',compact('beds','hostel','rooms'));
     }
 
@@ -93,8 +99,6 @@ class bedsController extends Controller
         $params = $request->all();
 
         $validation = Validator::make($params,[
-            'hostel_id' => 'required',
-            'room_id' => 'required',
             'bed_number' => 'required',
             'status' => 'required'
         ]);
@@ -103,7 +107,9 @@ class bedsController extends Controller
             return redirect()->back()->withErrors($validation)->withInput();
         }
 
-        return redirect()->back();
+        $beds->update($params);
+
+        return redirect()->route('beds.index')->with(['status' => 'Bed is Updated Succesfully' , 'alert-type' => 'success']);
     }
 
     /**
@@ -112,7 +118,21 @@ class bedsController extends Controller
     public function destroy(string $id)
     {
         $beds = beds::find($id);
-        $beds->delete();
-        return redirect()->back();
+        if($beds->status == 1){
+            return redirect()->route('beds.index')->with(['status' => 'Cannot delete a Booked Bed .' , 'alert-type' => 'warning']);
+        }else{
+            $beds->delete();
+            return redirect()->route('beds.index')->with(['status' => 'Bed Deleted Succesfully .', 'alert-type' => 'danger']);
+        }
+    }
+
+    public function data()
+    {
+        $hostel = hostels::all();
+        $rooms = rooms::all();
+        // dd($rooms);
+        $beds = beds::with('hostel','rooms')->get();
+        return DataTables::of($beds)  
+            ->make(true);
     }
 }

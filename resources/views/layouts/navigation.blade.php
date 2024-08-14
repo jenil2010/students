@@ -180,21 +180,27 @@
             </a>
         </li>
         <li class="menu-item {{ in_array(Route::current()->getName(), ['hostel.index', 'hostel.create', 'hostel.edit']) ? 'active' : '' }}" >
-            <a href="{{ route('hostel.create') }}" class="menu-link">
+            <a href="{{ route('hostel.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
                 <div data-i18n="Hostel">Hostel</div>
             </a>
         </li>
         <li class="menu-item {{ in_array(Route::current()->getName(), ['rooms.index', 'rooms.create', 'rooms.edit']) ? 'active' : '' }}" >
-            <a href="{{ route('rooms.create') }}" class="menu-link">
+            <a href="{{ route('rooms.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
                 <div data-i18n="Room">Rooms</div>
             </a>
         </li>
         <li class="menu-item {{ in_array(Route::current()->getName(), ['beds.index', 'beds.create', 'beds.edit']) ? 'active' : '' }}" >
-            <a href="{{ route('beds.create') }}" class="menu-link">
+            <a href="{{ route('beds.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
                 <div data-i18n="Bed">Beds</div>
+            </a>
+        </li>
+        <li class="menu-item {{ in_array(Route::current()->getName(), ['setting.index']) ? 'active' : '' }}" >
+            <a href="{{ route('setting.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                <div data-i18n="Settings">Settings</div>
             </a>
         </li>
 

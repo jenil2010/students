@@ -16,4 +16,8 @@ class rooms extends Model
     public function hostel(): BelongsTo{
         return $this->belongsTo(hostels::class,'hostel_id','id');
     }
+
+    public function beds(): BelongsTo{
+        return $this->belongsTo(beds::class,'beds_id','id');
+    }
 }
