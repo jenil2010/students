@@ -1,12 +1,12 @@
 @extends('layouts.app')
-@section('title','Create Course')
+@section('title','Course')
 @section('content')
 
 <div class="container-xxl d-flex h-100">
 
 <div class="col-md">
     <div class="card">
-      <h5 class="card-header">Add Course</h5>
+      <h5 class="card-header">Course</h5>
       <div class="card-body">
         <form action="{{ route('course.update',$id) }}" method="POST">
           @csrf

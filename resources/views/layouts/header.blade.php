@@ -468,10 +468,20 @@ id="layout-navbar">
                     <div class="dropdown-divider"></div>
                 </li>
                 <li>
-                    <a class="dropdown-item" href="auth-login-cover.html" target="_blank">
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+    
+                        <x-responsive-nav-link :href="route('logout')"
+                                onclick="event.preventDefault();
+                                            this.closest('form').submit();">
+                                            <i class="mdi mdi-logout me-2"></i>
+                            <span class="align-middle">{{ __('Log Out') }}</span>
+                        </x-responsive-nav-link>
+                    </form>
+                    {{-- <a class="dropdown-item" href="{{ route('logout') }}">
                         <i class="mdi mdi-logout me-2"></i>
                         <span class="align-middle">Log Out</span>
-                    </a>
+                    </a> --}}
                 </li>
             </ul>
         </li>

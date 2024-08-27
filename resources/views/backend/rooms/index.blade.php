@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Warden')
+@section('title', 'Rooms')
 
 @section('content')
     {{-- <div class="container mx-auto px-4 lg:w-4/5 xl:w-3/4"> --}}

@@ -98,6 +98,25 @@
         </div>
     </div>
 </nav> --}}
+@php
+    use Spatie\Permission\Models\Role;
+    use App\Models\Permissions;
+    use App\Models\User;
+
+    $loggedInUser = Auth::user();
+
+    $permissions = [];
+    $roleId = $loggedInUser->role_id;
+    // dd($roleId);
+    $data = Permissions::where('role_id', $roleId)->pluck('module', 'id')->toArray();
+    $permissions = array_unique($data);
+
+    $isSuperAdmin = 0;
+    if ($loggedInUser->role_id == 1) {
+        $isSuperAdmin = 1;
+    }
+
+@endphp
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
         <a href="index.html" class="app-brand-link">
@@ -203,7 +222,31 @@
                 <div data-i18n="Settings">Settings</div>
             </a>
         </li>
-
+        <li class="menu-item {{ in_array(Route::current()->getName(), ['roles.index', 'roles.create', 'roles.edit']) ? 'active' : '' }}" >
+            <a href="{{ route('roles.create') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                <div data-i18n="Roles">Roles</div>
+            </a>
+        </li>
+        <li class="menu-item {{ in_array(Route::current()->getName(), ['students.index', 'students.create', 'students.edit']) ? 'active' : '' }}" >
+            <a href="{{ route('students.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                <div data-i18n="Students">Students</div>
+            </a>
+        </li>
+        <li class="menu-item {{ in_array(Route::current()->getName(), ['complain.index', 'complain.create', 'complain.edit']) ? 'active' : '' }}" >
+            <a href="{{ route('complain.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                <div data-i18n="complain">complain</div>
+            </a>
+        </li>
+        <li class="menu-item {{ in_array(Route::current()->getName(), ['leave.index', 'leave.create', 'leave.edit']) ? 'active' : '' }}" >
+            <a href="{{ route('leave.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                <div data-i18n="leave">leave</div>
+            </a>
+        </li>
+        
             {{-- <ul class="menu-sub">
                 <li class="menu-item">
                     <a href="layouts-collapsed-menu.html" class="menu-link">

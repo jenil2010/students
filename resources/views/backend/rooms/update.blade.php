@@ -1,11 +1,11 @@
 @extends('layouts.app')
-@section('title', 'Warden')
+@section('title', 'Rooms')
 
 @section('content')
     <div class="container-xxl d-flex">
         <div class="col-md">
             <div class="card">
-                <h5 class="card-header">Hostel Form</h5>
+                <h5 class="card-header">Rooms Form</h5>
                 <div class="card-body">
                     <form class="browser-default-validation" action="{{ route('rooms.update',$id) }}" method="POST">
                         @csrf

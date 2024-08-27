@@ -1,10 +1,15 @@
 <?php
 
 use App\Http\Controllers\backend\bedsController;
+use App\Http\Controllers\backend\complainController;
 use App\Http\Controllers\backend\CourseController;
 use App\Http\Controllers\backend\hostelController;
+use App\Http\Controllers\backend\leaveController;
+use App\Http\Controllers\backend\roleController;
 use App\Http\Controllers\backend\roomsController;
 use App\Http\Controllers\backend\SettingsController;
+use App\Http\Controllers\backend\studentsControler;
+use App\Http\Controllers\backend\studentsController;
 use App\Http\Controllers\backend\wardenController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -17,7 +22,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+// Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -83,10 +88,57 @@ Route::middleware('auth')->group(function () {
 
     });
 
+    // students
+    Route::group(['prefix' => 'Students'], function(){
+        Route::get('/index',[studentsController::class, 'index'])->name('students.index');
+        Route::get('/create',[studentsController::class, 'create'])->name('students.create');
+        Route::post('/store',[studentsController::class, 'store'])->name('students.store');
+        Route::post('/getrooms',[studentsController::class, 'getRooms'])->name('beds.rooms');
+        Route::get('/edit/{id}',[studentsController::class, 'edit'])->name('students.edit');
+        Route::post('/update/{id}',[studentsController::class, 'update'])->name('students.update');
+        Route::get('/delete/{id}',[studentsController::class, 'destroy'])->name('students.delete');
+        Route::get('/data/{gender}/{country_id}',[studentsController::class, 'data'])->name('students.data');
+
+    });
+    // Complains
+    Route::group(['prefix' => 'Complains'], function(){
+        Route::get('/index',[complainController::class, 'index'])->name('complain.index');
+        Route::get('/create',[complainController::class, 'create'])->name('complain.create');
+        Route::post('/store',[complainController::class, 'store'])->name('complain.store');
+        Route::post('/getrooms',[complainController::class, 'getRooms'])->name('complain.rooms');
+        Route::get('/edit/{id}',[complainController::class, 'edit'])->name('complain.edit');
+        Route::post('/update/{id}',[complainController::class, 'update'])->name('complain.update');
+        Route::get('/delete/{id}',[complainController::class, 'destroy'])->name('complain.delete');
+        Route::get('/data',[complainController::class, 'data'])->name('complain.data');
+
+    });
+    
+    // Complains
+    Route::group(['prefix' => 'leaves'], function(){
+        Route::get('/index',[leaveController::class, 'index'])->name('leave.index');
+        Route::get('/create',[leaveController::class, 'create'])->name('leave.create');
+        Route::post('/store',[leaveController::class, 'store'])->name('leave.store');
+        Route::post('/getrooms',[leaveController::class, 'getRooms'])->name('leave.rooms');
+        Route::get('/edit/{id}',[leaveController::class, 'edit'])->name('leave.edit');
+        Route::post('/update/{id}',[leaveController::class, 'update'])->name('leave.update');
+        Route::get('/delete/{id}',[leaveController::class, 'destroy'])->name('leave.delete');
+        Route::get('/data',[leaveController::class, 'data'])->name('leave.data');
+
+    });
     Route::group(['prefix' => 'Settings'], function(){
         Route::get('/index',[SettingsController::class, 'index'])->name('setting.index');
         Route::post('/store',[SettingsController::class, 'store'])->name('setting.store');
     });
-});
+    
+    Route::prefix('Roles')->group(function () {
+        Route::get('', [roleController::class, 'index'])->name('roles.index');
+        Route::get('/create', [roleController::class, 'create'])->name('roles.create');
+        Route::post('/store', [roleController::class, 'store'])->name('roles.store');
+        Route::get('/{id}', [roleController::class, 'show'])->name('roles.show');
+        Route::get('/{role}/edit', [roleController::class, 'edit'])->name('roles.edit');
+        Route::put('/{id}', [roleController::class, 'update'])->name('roles.update');
+        Route::get('delete/{id}', [roleController::class, 'destroy'])->name('roles.destroy');
+    });
+// });
 
 require __DIR__.'/auth.php';

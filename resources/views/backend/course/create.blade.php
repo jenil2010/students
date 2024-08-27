@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Create Course')
+@section('title','Course')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css')}}" />
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/flatpickr/flatpickr.css')}}" />
@@ -12,7 +12,7 @@
 <div class="container-xxl d-flex h-100">
 <div class="col-md">
     <div class="card">
-      <h5 class="card-header">Add Course</h5>
+      <h5 class="card-header">Course</h5>
       <div class="card-body">
         <form novalidate="" action="{{ route('course.store') }}" method="POST">
           @csrf

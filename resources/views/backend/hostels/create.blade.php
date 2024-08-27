@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Warden')
+@section('title', 'Hostel')
 
 @section('content')
     <div class="container-xxl d-flex">

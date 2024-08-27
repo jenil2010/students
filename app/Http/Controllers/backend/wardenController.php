@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
+use App\Models\User;
 use App\Models\wardens;
+use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
@@ -24,7 +27,9 @@ class wardenController extends Controller
      */
     public function create()
     {
-        return view('backend.wardens.create');
+        
+        $role = Role::where('name','warden')->first();
+        return view('backend.wardens.create',compact('role'));
     }
 
     /**
@@ -33,7 +38,7 @@ class wardenController extends Controller
     public function store(Request $request)
     {
         $warden = $request->all();
-
+        // dd($warden);
         $validation = validator($warden,[
             'first_name' => 'required|alpha:ascii',
             'last_name' => 'required|alpha:ascii',
@@ -44,14 +49,26 @@ class wardenController extends Controller
             'address' => 'required',
             'experience' => 'required',
             'qualification' => 'required',
-            'status' => 'required'
+            'status' => 'required',
+            'password' => 'required'
 
         ]);
 
         if($validation->fails()){
             return redirect()->back()->withErrors($validation)->withInput();
         }
-
+        
+        $warden['name'] = $warden['first_name'].' '.$warden['last_name'];
+        $user = User::create([
+            'name' => $warden['name'],
+            'email' => $warden['email'],
+            'password' => Hash::make($warden['password']),
+            'role_id' => $warden['role_id'],
+        ]);
+        // dd($user);
+        $warden['user_id'] = $user->id;
+        
+        // dd($warden);
         wardens::create($warden);
         return redirect()->route('warden.index')->with(['status' => 'Warden is Created Succesfully', 'alert-type' => 'success']);
     }
@@ -70,7 +87,9 @@ class wardenController extends Controller
     public function edit(string $id)
     {
         $warden = wardens::find($id);
-        return view('backend.wardens.update',compact('warden','id'));
+        $role = Role::where('name','warden')->first();
+        // dd($warden);
+        return view('backend.wardens.update',compact('warden','role'));
     }
 
     /**
@@ -79,7 +98,7 @@ class wardenController extends Controller
     public function update(Request $request, string $id)
     {
         $warden = wardens::find($id);
-
+        $user = User::find($id);
         $params = $request->all();
 
         $validation = Validator::make($params,[
@@ -100,7 +119,16 @@ class wardenController extends Controller
             return redirect()->back()->withErrors($validation)->withInput();
         }
 
+        $params['name'] = $params['first_name'].' '.$params['last_name'];
+        $user->update([
+            'name' => $params['name'],
+            'email' => $params['email'],
+            'password' => Hash::make($params['password']),
+            'role_id' => $params['role_id'],
+        ]);
+
         $warden->update($params);
+        // $user->update()
         return redirect()->route('warden.index')->with(['status' => 'Warden is Updated Succesfully', 'alert-type' => 'success']);
 
     }
@@ -117,7 +145,8 @@ class wardenController extends Controller
 
     public function data()
     {
-        $warden = wardens::query()->get();
+        $user = User::all();
+        $warden = wardens::with('user')->get();
         return DataTables::of($warden)
             ->make(true);
     }
