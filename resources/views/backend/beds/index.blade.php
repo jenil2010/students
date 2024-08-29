@@ -38,76 +38,7 @@
 
     @section('script')
         <script>
-            /*  $(document).ready(function() {
-                                                            $('#warden').DataTable({
-                                                                searching: true,
-                                                                    processing: true,
-                                                                    serverSide: true,
-                                                                    scrollX: true,
-                                                                    lengthMenu: [10, 25, 50, 100, 1000, 10000],
-                                                                    ajax: {
-                                                                        url: "{{ route('warden.index') }}",
-                                                                    },
-                                                                // ajax: '{{ route('warden.data') }}',
-                                                                columns: [{
-                                                                        data: ''
-                                                                    },
-                                                                    {
-                                                                        data: 'id'
-                                                                    },
-                                                                    {
-                                                                        data: 'first_name'
-                                                                    },
-                                                                    {
-                                                                        data: 'last_name'
-                                                                    },
-                                                                    {
-                                                                        data: 'email'
-                                                                    },
-                                                                    {
-                                                                        data: 'address'
-                                                                    },
-                                                                    {
-                                                                        data: 'dob'
-                                                                    },
-                                                                    {
-                                                                        data: 'phone'
-                                                                    },
-                                                                    {
-                                                                        data: 'gender'
-                                                                    },
-                                                                    {
-                                                                        data: 'status'
-                                                                    },
-                                                                    {
-                                                                        data: 'experience'
-                                                                    },
-                                                                    {
-                                                                        data: 'qualification'
-                                                                    },
-                                                                    {
-                                                                        data: null,
-                                                                        render: function(data, type, full, meta) {
-                                                                            var editUrl = '{{ route('warden.edit', ':id') }}'.replace(':id', full
-                                                                                .id);
-                                                                            var deleteUrl = '{{ route('warden.delete', ':id') }}'.replace(':id',
-                                                                                full
-                                                                                .id);
-                                                                        }
-
-                                                                        `<a href="${editUrl}" class="btn btn-primary btn-sm pr-2">Edit</a>`,
-                                                                        `<a href="${deleteUrl}" class="btn btn-danger btn-sm">Delete</a>`
-                                                                    }
-                                                                ],
-                                                                dom: 'Bfrtip',
-                                                                buttons: [{
-                                                                    extend: 'collection',
-                                                                    text: 'Export',
-                                                                    buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
-                                                                }]
-                                                            });
-                                                        }); */
-
+  
             $(document).ready(function() {
 
                 fill_datatable();

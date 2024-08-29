@@ -14,7 +14,7 @@
                     @csrf
                     <div class="form-floating form-floating-outline mb-6">
                         <input type="text" class="form-control" id="basic-default-first_name" placeholder="First Name"
-                            name="first_name" value="{{ old('first_name') }}">
+                            name="first_name" value="{{ old('first_name',$student->first_name) }}">
                         <label for="basic-default-first_name">First Name</label>
                         <small class="text-red-600">
                             @error('first_name')
@@ -24,7 +24,7 @@
                     </div>
                     <div class="form-floating form-floating-outline mb-6">
                         <input type="text" class="form-control" id="basic-default-middle_name" placeholder="First Name"
-                            name="middle_name" value="{{ old('middle_name') }}">
+                            name="middle_name" value="{{ old('middle_name',$student->middle_name) }}">
                         <label for="basic-default-middle_name">Middle Name</label>
                         <small class="text-red-600">
                             @error('middle_name')
@@ -34,7 +34,7 @@
                     </div>
                     <div class="form-floating form-floating-outline mb-6">
                         <input type="text" class="form-control" id="basic-default-last_name" placeholder="Last Name"
-                            name="last_name" value="{{ old('last_name') }}">
+                            name="last_name" value="{{ old('last_name',$student->last_name) }}">
                         <label for="basic-default-last_name">Last Name</label>
                         <small class="text-red-600">
                             @error('last_name')
@@ -44,7 +44,7 @@
                     </div>
                     <div class="form-floating form-floating-outline mb-6">
                         <input type="number" class="form-control" id="basic-default-phone" placeholder="Mobile Number"
-                            name="phone" maxlength="10" pattern="\d{10}" value="{{ old('phone') }}">
+                            name="phone" maxlength="10" pattern="\d{10}" value="{{ old('phone',$student->phone) }}">
                         <label for="basic-default-phone">Mobile Number</label>
                         <small class="text-red-600">
                             @error('phone')
@@ -54,7 +54,7 @@
                     </div>
                     <div class="form-floating form-floating-outline mb-6">
                         <input type="email" id="basic-default-email" class="form-control" placeholder="Email"
-                            name="email" value="{{ old('email') }}">
+                            name="email" value="{{ old('email',$student->email) }}">
                         <label for="basic-default-email">Email</label>
                         <small class="text-red-600">
                             @error('email')
@@ -79,7 +79,7 @@
                         <input type="hidden" class="form-control flatpickr-validation flatpickr-input"
                             placeholder="YYYY-MM-DD" id="basic-default-dob" name="dob"><input
                             class="form-control flatpickr-validation flatpickr-input flatpickr-mobile" tabindex="1"
-                            type="date" placeholder="YYYY-MM-DD" name="dob" value="{{ old('dob') }}">
+                            type="date" placeholder="YYYY-MM-DD" name="dob" value="{{ old('dob',$student->dob) }}">
                         <label for="basic-default-dob">DOB</label>
                         <small class="text-red-600">
                             @error('dob')
@@ -90,8 +90,8 @@
                     <div class="form-floating form-floating-outline mb-6">
                         <select class="form-select" id="basic-default-gender" name="gender">
                             <option value="">Select Gender</option>
-                            <option value="male" {{ old('gender') === 'male' ? 'selected' : '' }}>Male</option>
-                            <option value="female" {{ old('gender') === 'female' ? 'selected' : '' }}>Female</option>
+                            <option value="male" {{ old('gender',$student->gender) === 'male' ? 'selected' : '' }}>Male</option>
+                            <option value="female" {{ old('gender',$student->gender) === 'female' ? 'selected' : '' }}>Female</option>
                         </select>
                         <label for="basic-default-gender">Gender</label>
                         <small class="text-red-600">
@@ -102,7 +102,7 @@
                     </div>
                     <div class="form-floating form-floating-outline mb-6">
                         <textarea class="materialize-textarea form-control h-px-75 resize-none" id="basic-default-address" name="address"
-                            placeholder="Address" rows="3" value="{{ old('address') }}"></textarea>
+                            placeholder="Address" rows="3" value="">{{ old('address',$student->address) }}</textarea>
                         <label for="basic-default-address">Address</label>
                         <small class="text-red-600">
                             @error('address')
@@ -112,7 +112,7 @@
                     </div>
                     <div class="form-floating form-floating-outline mb-6">
                         <select class="form-select select2" id="basic-default-country" name="country_id">
-                            <option value="" selected="">Select Country</option>
+                            <option value="{{ old('country_id',$student->country_id) }}" selected="">Select Country</option>
                             @foreach ($country as $item)
                                 <option value="{{ $item->id }}" selected="">{{ $item->name }}</option>
                             @endforeach
@@ -127,123 +127,123 @@
                     <div class="form-floating form-floating-outline mb-6">
                         <select class="form-select select2" id="basic-default-gender" name="village">
                             <option value="" selected="">Select Village</option>
-                            <option value="Anjar" {{ old('village') === 'Anjar' ? 'selected' : '' }}>
+                            <option value="Anjar" {{ old('village',$student->village) === 'Anjar' ? 'selected' : '' }}>
                                 Anjar
                             </option>
-                            <option value="Asambiya" {{ old('village') === 'Asambiya' ? 'selected' : '' }}>
+                            <option value="Asambiya" {{ old('village',$student->village) === 'Asambiya' ? 'selected' : '' }}>
                                 Asambiya
                             </option>
-                            <option value="Baladia" {{ old('village') === 'Baladia' ? 'selected' : '' }}>
+                            <option value="Baladia" {{ old('village',$student->village) === 'Baladia' ? 'selected' : '' }}>
                                 Baladia
                             </option>
-                            <option value="Bharapur" {{ old('village') === 'Bharapur' ? 'selected' : '' }}>
+                            <option value="Bharapur" {{ old('village',$student->village) === 'Bharapur' ? 'selected' : '' }}>
                                 Bharapur
                             </option>
-                            <option value="Bharasar" {{ old('village') === 'Bharasar' ? 'selected' : '' }}>
+                            <option value="Bharasar" {{ old('village',$student->village) === 'Bharasar' ? 'selected' : '' }}>
                                 Bharasar
                             </option>
-                            <option value="Bhuj" {{ old('village') === 'Bhuj' ? 'selected' : '' }}>
+                            <option value="Bhuj" {{ old('village',$student->village) === 'Bhuj' ? 'selected' : '' }}>
                                 Bhuj
                             </option>
-                            <option value="Dahisara" {{ old('village') === 'Dahisara' ? 'selected' : '' }}>
+                            <option value="Dahisara" {{ old('village',$student->village) === 'Dahisara' ? 'selected' : '' }}>
                                 Dahisara
                             </option>
-                            <option value="Don" {{ old('village') === 'Don' ? 'selected' : '' }}>
+                            <option value="Don" {{ old('village',$student->village) === 'Don' ? 'selected' : '' }}>
                                 Don
                             </option>
-                            <option value="Durgapar" {{ old('village') === 'Durgapar' ? 'selected' : '' }}>
+                            <option value="Durgapar" {{ old('village',$student->village) === 'Durgapar' ? 'selected' : '' }}>
                                 Durgapar
                             </option>
-                            <option value="Fotdi" {{ old('village') === 'Fotdi' ? 'selected' : '' }}>
+                            <option value="Fotdi" {{ old('village',$student->village) === 'Fotdi' ? 'selected' : '' }}>
                                 Fotdi
                             </option>
-                            <option value="Godhra" {{ old('village') === 'Godhra' ? 'selected' : '' }}>
+                            <option value="Godhra" {{ old('village',$student->village) === 'Godhra' ? 'selected' : '' }}>
                                 Godhra
                             </option>
-                            <option value="Godpar" {{ old('village') === 'Godpar' ? 'selected' : '' }}>
+                            <option value="Godpar" {{ old('village',$student->village) === 'Godpar' ? 'selected' : '' }}>
                                 Godpar
                             </option>
-                            <option value="Goniyasar" {{ old('village') === 'Goniyasar' ? 'selected' : '' }}>
+                            <option value="Goniyasar" {{ old('village',$student->village) === 'Goniyasar' ? 'selected' : '' }}>
                                 Goniyasar
                             </option>
-                            <option value="Haripur" {{ old('village') === 'Haripur' ? 'selected' : '' }}>
+                            <option value="Haripur" {{ old('village',$student->village) === 'Haripur' ? 'selected' : '' }}>
                                 Haripur
                             </option>
-                            <option value="Jakhaniya" {{ old('village') === 'Jakhaniya' ? 'selected' : '' }}>
+                            <option value="Jakhaniya" {{ old('village',$student->village) === 'Jakhaniya' ? 'selected' : '' }}>
                                 Jakhaniya
                             </option>
-                            <option value="Kera" {{ old('village') === 'Kera' ? 'selected' : '' }}>
+                            <option value="Kera" {{ old('village',$student->village) === 'Kera' ? 'selected' : '' }}>
                                 Kera
                             </option>
-                            <option value="Koday" {{ old('village') === 'Koday' ? 'selected' : '' }}>
+                            <option value="Koday" {{ old('village',$student->village) === 'Koday' ? 'selected' : '' }}>
                                 Koday
                             </option>
-                            <option value="Kodki" {{ old('village') === 'Kodki' ? 'selected' : '' }}>
+                            <option value="Kodki" {{ old('village',$student->village) === 'Kodki' ? 'selected' : '' }}>
                                 Kodki
                             </option>
-                            <option value="Kundanpar" {{ old('village') === 'Kundanpar' ? 'selected' : '' }}>
+                            <option value="Kundanpar" {{ old('village',$student->village) === 'Kundanpar' ? 'selected' : '' }}>
                                 Kundanpar
                             </option>
-                            <option value="Madhapar" {{ old('village') === 'Madhapar' ? 'selected' : '' }}>
+                            <option value="Madhapar" {{ old('village',$student->village) === 'Madhapar' ? 'selected' : '' }}>
                                 Madhapar
                             </option>
-                            <option value="Mandvi" {{ old('village') === 'Mandvi' ? 'selected' : '' }}>
+                            <option value="Mandvi" {{ old('village',$student->village) === 'Mandvi' ? 'selected' : '' }}>
                                 Mandvi
                             </option>
-                            <option value="Mankuva" {{ old('village') === 'Mankuva' ? 'selected' : '' }}>
+                            <option value="Mankuva" {{ old('village',$student->village) === 'Mankuva' ? 'selected' : '' }}>
                                 Mankuva
                             </option>
-                            <option value="Maska" {{ old('village') === 'Maska' ? 'selected' : '' }}>
+                            <option value="Maska" {{ old('village',$student->village) === 'Maska' ? 'selected' : '' }}>
                                 Maska
                             </option>
-                            <option value="Meghpar" {{ old('village') === 'Meghpar' ? 'selected' : '' }}>
+                            <option value="Meghpar" {{ old('village',$student->village) === 'Meghpar' ? 'selected' : '' }}>
                                 Meghpar
                             </option>
-                            <option value="Merau" {{ old('village') === 'Merau' ? 'selected' : '' }}>
+                            <option value="Merau" {{ old('village',$student->village) === 'Merau' ? 'selected' : '' }}>
                                 Merau
                             </option>
-                            <option value="Mirjapar" {{ old('village') === 'Mirjapar' ? 'selected' : '' }}>
+                            <option value="Mirjapar" {{ old('village',$student->village) === 'Mirjapar' ? 'selected' : '' }}>
                                 Mirjapar
                             </option>
-                            <option value="Nagalpur" {{ old('village') === 'Nagalpur' ? 'selected' : '' }}>
+                            <option value="Nagalpur" {{ old('village',$student->village) === 'Nagalpur' ? 'selected' : '' }}>
                                 Nagalpur
                             </option>
-                            <option value="Naranpur" {{ old('village') === 'Naranpur' ? 'selected' : '' }}>
+                            <option value="Naranpur" {{ old('village',$student->village) === 'Naranpur' ? 'selected' : '' }}>
                                 Naranpur
                             </option>
-                            <option value="Rampar" {{ old('village') === 'Rampar' ? 'selected' : '' }}>
+                            <option value="Rampar" {{ old('village',$student->village) === 'Rampar' ? 'selected' : '' }}>
                                 Rampar
                             </option>
-                            <option value="Rayan" {{ old('village') === 'Rayan' ? 'selected' : '' }}>
+                            <option value="Rayan" {{ old('village',$student->village) === 'Rayan' ? 'selected' : '' }}>
                                 Rayan
                             </option>
-                            <option value="Samatra" {{ old('village') === 'Samatra' ? 'selected' : '' }}>
+                            <option value="Samatra" {{ old('village',$student->village) === 'Samatra' ? 'selected' : '' }}>
                                 Samatra
                             </option>
-                            <option value="Sarli" {{ old('village') === 'Sarli' ? 'selected' : '' }}>
+                            <option value="Sarli" {{ old('village',$student->village) === 'Sarli' ? 'selected' : '' }}>
                                 Sarli
                             </option>
-                            <option value="Shirva" {{ old('village') === 'Shirva' ? 'selected' : '' }}>
+                            <option value="Shirva" {{ old('village',$student->village) === 'Shirva' ? 'selected' : '' }}>
                                 Shirva
                             </option>
                             <option value="Sukhpar - Junavas"
-                                {{ old('village') === 'Sukhpar - Junavas' ? 'selected' : '' }}>
+                                {{ old('village',$student->village) === 'Sukhpar - Junavas' ? 'selected' : '' }}>
                                 Sukhpar - Junavas
                             </option>
                             <option value="Sukhpar - Madanpur"
-                                {{ old('village') === 'Sukhpar - Madanpur' ? 'selected' : '' }}>
+                                {{ old('village',$student->village) === 'Sukhpar - Madanpur' ? 'selected' : '' }}>
                                 Sukhpar - Madanpur
                             </option>
-                            <option value="Sukhpar - Roha" {{ old('village') === 'Sukhpar - Roha' ? 'selected' : '' }}>
+                            <option value="Sukhpar - Roha" {{ old('village',$student->village) === 'Sukhpar - Roha' ? 'selected' : '' }}>
                                 Sukhpar - Roha
                             </option>
-                            <option value="Surajpur" {{ old('village') === 'Surajpur' ? 'selected' : '' }}>
+                            <option value="Surajpur" {{ old('village',$student->village) === 'Surajpur' ? 'selected' : '' }}>
                                 Surajpur
                             </option>
-                            <option value="Vadasar" {{ old('village') === 'Vadasar' ? 'selected' : '' }}>
+                            <option value="Vadasar" {{ old('village',$student->village) === 'Vadasar' ? 'selected' : '' }}>
                                 Vadasar
                             </option>
-                            <option value="Vekra" {{ old('village') === 'Vekra' ? 'selected' : '' }}>
+                            <option value="Vekra" {{ old('village',$student->village) === 'Vekra' ? 'selected' : '' }}>
                                 Vekra
                             </option>
                         </select>
@@ -257,8 +257,8 @@
                     <div class="form-floating form-floating-outline mb-6">
                         <select class="form-select" id="basic-default-country" name="status">
                             <option value="">Select Status</option>
-                            <option value="1" {{ old('status') === '1' ? 'selected' : '' }}>Enable</option>
-                            <option value="0" {{ old('status') === '0' ? 'selected' : '' }}>Disable</option>
+                            <option value="1" {{ old('status',$student->status) === 1 ? 'selected' : '' }}>Enable</option>
+                            <option value="0" {{ old('status',$student->status) === 0 ? 'selected' : '' }}>Disable</option>
                         </select>
                         <label for="basic-default-country">Status</label>
                         <small class="text-red-600">
@@ -278,7 +278,7 @@
                     <div class="form-floating form-floating-outline mb-6 student_illness_field">
                         <input type="text" class="form-control" id="basic-default-last_name"
                             placeholder="Illness Description" name="illness_description"
-                            value="{{ old('illness_description') }}">
+                            value="{{ old('illness_description',$student->illness_description) }}">
                         <label for="basic-default-last_name">Describe your
                             illness in brief</label>
                         <small class="text-red-600">

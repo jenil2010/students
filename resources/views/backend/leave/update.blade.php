@@ -2,7 +2,9 @@
 @section('title', 'Leave')
 
 @section('content')
-
+@php
+    $userId
+@endphp
     <div class="container-xxl h-100">
         <div class="col-md">
             <div class="card">
@@ -51,7 +53,7 @@
                                 </small>
                             </div>
                             <div class="form-floating form-floating-outline mb-6">
-                                <select class="form-select" id="basic-default-country" name="status">
+                                <select class="form-select" id="basic-default-country" name="leave_status">
                                     <option value="">Select Status</option>
                                     <option value="Pending" {{ old('leave_status',$leave->leave_status) === 'Pending' ? 'selected' : '' }}>
                                         Pending</option>

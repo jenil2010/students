@@ -98,7 +98,7 @@
         </div>
     </div>
 </nav> --}}
-@php
+{{-- @php
     use Spatie\Permission\Models\Role;
     use App\Models\Permissions;
     use App\Models\User;
@@ -116,7 +116,7 @@
         $isSuperAdmin = 1;
     }
 
-@endphp
+@endphp --}}
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
         <a href="index.html" class="app-brand-link">
@@ -186,6 +186,12 @@
          
 
         <!-- Layouts -->
+        <li class="menu-item {{ in_array(Route::current()->getName(), ['addmission.index', 'addmission.create', 'addmission.edit']) ? 'active' : '' }}" >
+            <a href="{{ route('addmission.create') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                <div data-i18n="Addmission">Addmission</div>
+            </a>
+        </li>
         <li class="menu-item {{ in_array(Route::current()->getName(), ['course.index', 'course.create', 'course.edit']) ? 'active' : '' }}" >
             <a href="{{ route('course.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
@@ -244,6 +250,12 @@
             <a href="{{ route('leave.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
                 <div data-i18n="leave">leave</div>
+            </a>
+        </li>
+        <li class="menu-item {{ in_array(Route::current()->getName(), ['admin.index', 'admin.create', 'admin.edit']) ? 'active' : '' }}" >
+            <a href="{{ route('admin.create') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                <div data-i18n="Admin">Admin</div>
             </a>
         </li>
         

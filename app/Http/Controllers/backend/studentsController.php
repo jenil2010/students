@@ -147,7 +147,7 @@ class studentsController extends Controller
         //
     }
 
-    public function data(Request $request , $gender, $country_id){
+    public function data(Request $request){
         // $query = Students::query();
 
         // Apply filters if they are provided
@@ -159,21 +159,30 @@ class studentsController extends Controller
         //     $query->where('country_id', $request->country_id);
         //     // dd($query);
         // }
-        $data = Students::where('gender', $gender)
-                     ->where('country_id', $country_id)
-                     ->get();
+        // $data = Students::where('gender', $gender)
+        //              ->where('country_id', $country_id)
+        //              ->get();
     
         // Fetch data from the query
-        // $students = $query->get();
+        $genderId = $request->gender_id;
+        $countryId = $request->country_id;
+        $students =  Students::when($genderId, function ($query) use ($genderId) {
+            return $query->where('gender', $genderId);
+          })
+          ->when($countryId, function ($query) use ($countryId) {
+            return $query->where('country_id', $countryId);
+          })
+          ->orderBy("created_at", "desc")->get();
+        // $students = Students::with()->get();
     
         // Prepare data for DataTables
-        $data = [
-            'data' => $data,
-            'recordsTotal' => $data->count(),
-            'recordsFiltered' => $data->count(),
-        ];
+        // $data = [
+        //     'data' => $data,
+        //     'recordsTotal' => $data->count(),
+        //     'recordsFiltered' => $data->count(),
+        // ];
     
-        return response()->json($data);
+        return DataTables::of($students)->make();
     
     }
 }

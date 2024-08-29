@@ -1,50 +1,20 @@
 @extends('layouts.app')
-@section('title', 'Warden')
+@section('title', 'Beds')
 
 @section('content')
     {{-- <div class="container mx-auto px-4 lg:w-4/5 xl:w-3/4"> --}}
-    @if (session('status'))
+        @if (session('status'))
         <div class="alert alert-{{ session('alert-type', 'info') }} alert-dismissible fade show" role="alert">
             <strong>{{ session('status') }}</strong>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
     <div class="card h-100">
-
         <div class="card-header flex-column flex-md-row border-bottom">
             <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="card-title m-0 me-2 text-secondary">Warden</h5>
-                <a href="{{ route('students.create') }}" class="btn btn-primary"><i class="mdi mdi-plus me-sm-1"></i><span
-                        class="d-none d-sm-inline-block">Warden</span></a>
-            </div>
-            <div class="row grid grid-cols-2 gap-4">
-                <div class="form-floating form-floating-outline mb-6 col-auto">
-                    <select class="form-select" id="gender" name="gender">
-                        <option value="">Select Gender</option>
-                        <option value="male" {{ old('gender') === 'male' ? 'selected' : '' }}>Male</option>
-                        <option value="female" {{ old('gender') === 'female' ? 'selected' : '' }}>Female</option>
-                    </select>
-                    <label for="gender">Gender</label>
-                    <small class="text-red-600">
-                        @error('gender')
-                            {{ $message }}
-                        @enderror
-                    </small>
-                </div>
-                <div class="form-floating form-floating-outline mb-6 col-auto">
-                    <select class="form-select select2" id="country_id" name="country_id">
-                        <option value="" selected="">Select Country</option>
-                        @foreach ($country as $item)
-                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                        @endforeach
-                    </select>
-                    <label for="country_id">Country</label>
-                    <small class="text-red-600">
-                        @error('country')
-                            {{ $message }}
-                        @enderror
-                    </small>
-                </div>
+                <h5 class="card-title m-0 me-2 text-secondary">Beds</h5>
+                <a href="{{ route('beds.create') }}" class="btn btn-primary"><i class="mdi mdi-plus me-sm-1"></i><span
+                        class="d-none d-sm-inline-block">Beds</span></a>
             </div>
             <hr>
             <div class="card-datatable table-responsive pt-0">
@@ -53,17 +23,12 @@
                         <tr>
                             <th></th>
                             <th>id</th>
-                            <th>First Name</th>
-                            <th>Middle Name</th>
-                            <th>last Name</th>
-                            <th>Email</th>
-                            <th>Address</th>
-                            <th>DOB</th>
-                            <th>Contact</th>
+                            <th>Name</th>
+                            <th>Email</th>    
                             <th>Action</th>
                         </tr>
                     </thead>
-
+                   
                 </table>
             </div>
         </div>
@@ -71,23 +36,14 @@
 
     @section('script')
         <script>
+  
             $(document).ready(function() {
-                var genderId = null;
-                var countryId = null;
 
-                $(document).on('change', '#gender', function() {
-                    genderId = $(this).val();
-                    $('#warden').DataTable().ajax.reload();
-                });
-
-                $(document).on('change', '#country_id', function() {
-                    countryId = $(this).val();
-                    $('#warden').DataTable().ajax.reload();
-                });
+                fill_datatable();
 
                 $("#overlay").show();
 
-                function fill_datatable() {
+                function fill_datatable(name = '', id = '', created_at = '') {
                     var dataTable = $('#warden').DataTable({
                         searching: true,
                         processing: true,
@@ -95,14 +51,7 @@
                         scrollX: true,
                         lengthMenu: [10, 25, 50, 100, 1000, 10000],
                         ajax: {
-                            url: "{{ route('students.data') }}",
-                            data: function(d) {
-                                d.gender_id = genderId;
-                                console.log("Selected Gender ID: ", d.gender_id);
-                                d.country_id = countryId;
-                                console.log("Selected Country ID: ", d.country_id);
-                                console.log("get  :- ", d);
-                            },
+                            url: "{{ route('admin.data') }}",
                         },
                         columns: [{
                                 data: ''
@@ -111,25 +60,10 @@
                                 data: 'id'
                             },
                             {
-                                data: 'first_name'
-                            },
-                            {
-                                data: 'middle_name'
-                            },
-                            {
-                                data: 'last_name'
+                                data: 'name'
                             },
                             {
                                 data: 'email'
-                            },
-                            {
-                                data: 'address'
-                            },
-                            {
-                                data: 'dob'
-                            },
-                            {
-                                data: 'phone'
                             },
                             {
                                 // Actions
@@ -137,12 +71,10 @@
                                 title: 'Actions',
                                 orderable: false,
                                 render: function(data, type, full, meta) {
-                                    var editUrl = '{{ route('students.edit', 'id') }}'.replace('id',
-                                        full
+                                    var editUrl = '{{ route('admin.edit', 'id') }}'.replace('id', full
                                         .id);
                                     console.log(editUrl);
-                                    var deleteUrl = '{{ route('students.delete', 'id') }}'.replace(
-                                        'id',
+                                    var deleteUrl = '{{ route('admin.delete', 'id') }}'.replace('id',
                                         full.id);
                                     return (
                                         '<div class="d-inline-block">' +
@@ -213,10 +145,6 @@
                 setTimeout(function() {
                     $('.alert').fadeOut('fast');
                 }, 3000);
-
-                // fill_datatable(gender, country_id);
-                fill_datatable();
-
 
             });
         </script>

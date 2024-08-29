@@ -16,7 +16,8 @@ class leaveController extends Controller
      */
     public function index()
     {
-        return view('backend.leave.index');
+        $student = Students::all();
+        return view('backend.leave.index',compact('student'));
     }
 
     /**
@@ -85,6 +86,13 @@ class leaveController extends Controller
             $validation = validator($params,[
                 'note' => 'required',
             ]);
+            if($validation->fails()){
+                return redirect()->back()->withErrors($validation)->withInput();
+            }
+            // dd($params);
+            $leave->update($params);
+            
+            return redirect()->route('leave.index')->with(['status' => 'Leave is Created Succesfully', 'alert-type' => 'success']);
         }  else {
             $params = $request->all();
             $params['leave_apply_by'] = $userId;
@@ -94,28 +102,14 @@ class leaveController extends Controller
                 'reason' => 'required',
                 'leave_to' => 'required',
             ]);
+            if($validation->fails()){
+                return redirect()->back()->withErrors($validation)->withInput();
+            }
+            $leave->update($params);
+            
+            return redirect()->route('leave.index')->with(['status' => 'Leave is Created Succesfully', 'alert-type' => 'success']);
         }
-        // if ($userId !== 3) {
-        //     $leave['approve_by'] = $userId;
-        //     $validation = validator($params,[
-        //         'note' => 'required',
-        //     ]);
-        // } else {
-        //     $leave['leave_apply_by'] = $userId;
-        //     $leave['note'] = '';
-        //     $validation = validator($params,[
-        //         'leave_from' => 'required',
-        //         'reason' => 'required',
-        //         'leave_to' => 'required',
-        //     ]);
-        // }
-
-        if($validation->fails()){
-            return redirect()->back()->withErrors($validation)->withInput();
-        }
-        $leave->update($params);
         
-        return redirect()->route('leave.index')->with(['status' => 'Leave is Created Succesfully', 'alert-type' => 'success']);
     }
 
     /**
@@ -128,10 +122,10 @@ class leaveController extends Controller
 
     public function data()
     {
-        // $students = Students::all();
-        // $user = User::get()->toArray();
-        // $student = Students::get()->pluck('name')->first();
-        // dd($user);
+        // $student = $request->student_id;
+        // $students =  Leave::when($student, function ($query) use ($student) {
+        //     return $query->where('student_id', $student);
+        //   })->orderBy("created_at", "desc")->get();
         $leave = Leave::with('applyby', 'approveby')->get();
         return DataTables::of($leave)
             ->make(true);

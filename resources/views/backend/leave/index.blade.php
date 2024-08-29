@@ -17,6 +17,20 @@
                         class="d-none d-sm-inline-block">Leave</span></a>
             </div>
             <hr>
+            <div class="form-floating form-floating-outline mb-6 col-auto">
+                <select class="form-select select2" id="student_id" name="student_id">
+                    <option value="" selected="">Select Student</option>
+                    @foreach ($student as $item)
+                        <option value="{{ $item->id }}">{{ $item->first_name.' '.$item->last_name }}</option>
+                    @endforeach
+                </select>
+                <label for="country_id">Student</label>
+                <small class="text-red-600">
+                    @error('country')
+                        {{ $message }}
+                    @enderror
+                </small>
+            </div>
             <div class="card-datatable table-responsive pt-0">
                 <table class="datatables-basic table table-bordered" id="warden">
                     <thead>

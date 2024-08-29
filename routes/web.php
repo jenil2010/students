@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\backend\addmissionController;
+use App\Http\Controllers\backend\AdminController;
 use App\Http\Controllers\backend\bedsController;
 use App\Http\Controllers\backend\complainController;
 use App\Http\Controllers\backend\CourseController;
@@ -36,6 +38,19 @@ Route::get('/dashboard', function () {
         Route::post('/update/{id}',[CourseController::class, 'update'])->name('course.update');
         Route::get('/delete/{id}',[CourseController::class, 'destroy'])->name('course.delete');
         Route::get('/data',[CourseController::class, 'data'])->name('course.data');
+
+    });
+
+    // courses
+    Route::group(['prefix' => 'Addmission'], function(){
+        Route::get('/index',[addmissionController::class, 'index'])->name('addmission.index');
+        Route::get('/create',[addmissionController::class, 'create'])->name('addmission.create');
+        Route::get('/load',[addmissionController::class, 'load'])->name('addmission.load');
+        Route::post('/store',[addmissionController::class, 'store'])->name('addmission.store');
+        Route::get('/edit/{id}',[addmissionController::class, 'edit'])->name('addmission.edit');
+        Route::post('/update/{id}',[addmissionController::class, 'update'])->name('addmission.update');
+        Route::get('/delete/{id}',[addmissionController::class, 'destroy'])->name('addmission.delete');
+        Route::get('/data',[addmissionController::class, 'data'])->name('addmission.data');
 
     });
 
@@ -97,7 +112,7 @@ Route::get('/dashboard', function () {
         Route::get('/edit/{id}',[studentsController::class, 'edit'])->name('students.edit');
         Route::post('/update/{id}',[studentsController::class, 'update'])->name('students.update');
         Route::get('/delete/{id}',[studentsController::class, 'destroy'])->name('students.delete');
-        Route::get('/data/{gender}/{country_id}',[studentsController::class, 'data'])->name('students.data');
+        Route::get('/data',[studentsController::class, 'data'])->name('students.data');
 
     });
     // Complains
@@ -125,6 +140,19 @@ Route::get('/dashboard', function () {
         Route::get('/data',[leaveController::class, 'data'])->name('leave.data');
 
     });
+
+    // admin
+    Route::group(['prefix' => 'Admin'], function(){
+        Route::get('/index',[AdminController::class, 'index'])->name('admin.index');
+        Route::get('/create',[AdminController::class, 'create'])->name('admin.create');
+        Route::post('/store',[AdminController::class, 'store'])->name('admin.store');
+        Route::post('/getrooms',[AdminController::class, 'getRooms'])->name('admin.rooms');
+        Route::get('/edit/{id}',[AdminController::class, 'edit'])->name('admin.edit');
+        Route::post('/update/{id}',[AdminController::class, 'update'])->name('admin.update');
+        Route::get('/delete/{id}',[AdminController::class, 'destroy'])->name('admin.delete');
+        Route::get('/data',[AdminController::class, 'data'])->name('admin.data');
+    });
+
     Route::group(['prefix' => 'Settings'], function(){
         Route::get('/index',[SettingsController::class, 'index'])->name('setting.index');
         Route::post('/store',[SettingsController::class, 'store'])->name('setting.store');

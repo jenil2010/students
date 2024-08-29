@@ -13,7 +13,7 @@ class Leave extends Model
     protected $table = 'leaves';
     protected $primarykey = 'id';
     protected $fillable = [
-        'leave_apply_by', 'reason','approve_by','note','leave_status','leave_from','leave_to'
+        'leave_apply_by', 'reason','approve_by','note','leave_status','leave_from','leave_to','student_id'
     ];
 
     public function applyby(): BelongsTo{
@@ -22,5 +22,8 @@ class Leave extends Model
     
     public function approveby(): BelongsTo{
         return $this->belongsTo(User::class,'approve_by','id');
+    }
+    public function student(): BelongsTo{
+        return $this->belongsTo(Students::class,'student_id','id');
     }
 }
