@@ -50,7 +50,6 @@ class bedsController extends Controller
         ]);
 
         if($validation->fails()){
-            // $rooms = rooms::where('hostel_id', $request->input('hostel_id'))->get();
             return redirect()->back()->withErrors($validation)->withInput();
         }
 
@@ -118,12 +117,12 @@ class bedsController extends Controller
     public function destroy(string $id)
     {
         $beds = beds::find($id);
-        if($beds->status == 1){
-            return redirect()->route('beds.index')->with(['status' => 'Cannot delete a Booked Bed .' , 'alert-type' => 'warning']);
-        }else{
+        // if($beds->status == 1){
+        //     return redirect()->route('beds.index')->with(['status' => 'Cannot delete a Booked Bed .' , 'alert-type' => 'warning']);
+        // }else{
             $beds->delete();
             return redirect()->route('beds.index')->with(['status' => 'Bed Deleted Succesfully .', 'alert-type' => 'danger']);
-        }
+        // }
     }
 
     public function data()

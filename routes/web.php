@@ -41,16 +41,22 @@ Route::get('/dashboard', function () {
 
     });
 
-    // courses
+    // addmission
     Route::group(['prefix' => 'Addmission'], function(){
         Route::get('/index',[addmissionController::class, 'index'])->name('addmission.index');
         Route::get('/create',[addmissionController::class, 'create'])->name('addmission.create');
         Route::get('/load',[addmissionController::class, 'load'])->name('addmission.load');
         Route::post('/store',[addmissionController::class, 'store'])->name('addmission.store');
+        Route::post('/Reserve',[addmissionController::class, 'Reserve'])->name('addmission.Reserve');
+        Route::post('/note',[addmissionController::class, 'note'])->name('addmission.note');
+        Route::post('/fees',[addmissionController::class, 'fees'])->name('addmission.fees');
         Route::get('/edit/{id}',[addmissionController::class, 'edit'])->name('addmission.edit');
         Route::post('/update/{id}',[addmissionController::class, 'update'])->name('addmission.update');
         Route::get('/delete/{id}',[addmissionController::class, 'destroy'])->name('addmission.delete');
         Route::get('/data',[addmissionController::class, 'data'])->name('addmission.data');
+        Route::post('/getrooms',[addmissionController::class, 'getRoom'])->name('addmission.rooms');
+        Route::post('/getbeds',[addmissionController::class, 'getBeds'])->name('addmission.beds');
+
 
     });
 
@@ -108,7 +114,6 @@ Route::get('/dashboard', function () {
         Route::get('/index',[studentsController::class, 'index'])->name('students.index');
         Route::get('/create',[studentsController::class, 'create'])->name('students.create');
         Route::post('/store',[studentsController::class, 'store'])->name('students.store');
-        Route::post('/getrooms',[studentsController::class, 'getRooms'])->name('beds.rooms');
         Route::get('/edit/{id}',[studentsController::class, 'edit'])->name('students.edit');
         Route::post('/update/{id}',[studentsController::class, 'update'])->name('students.update');
         Route::get('/delete/{id}',[studentsController::class, 'destroy'])->name('students.delete');
@@ -120,7 +125,7 @@ Route::get('/dashboard', function () {
         Route::get('/index',[complainController::class, 'index'])->name('complain.index');
         Route::get('/create',[complainController::class, 'create'])->name('complain.create');
         Route::post('/store',[complainController::class, 'store'])->name('complain.store');
-        Route::post('/getrooms',[complainController::class, 'getRooms'])->name('complain.rooms');
+        // Route::post('/getrooms',[complainController::class, 'getRooms'])->name('complain.rooms');
         Route::get('/edit/{id}',[complainController::class, 'edit'])->name('complain.edit');
         Route::post('/update/{id}',[complainController::class, 'update'])->name('complain.update');
         Route::get('/delete/{id}',[complainController::class, 'destroy'])->name('complain.delete');
@@ -133,7 +138,7 @@ Route::get('/dashboard', function () {
         Route::get('/index',[leaveController::class, 'index'])->name('leave.index');
         Route::get('/create',[leaveController::class, 'create'])->name('leave.create');
         Route::post('/store',[leaveController::class, 'store'])->name('leave.store');
-        Route::post('/getrooms',[leaveController::class, 'getRooms'])->name('leave.rooms');
+        // Route::post('/getrooms',[leaveController::class, 'getRooms'])->name('leave.rooms');
         Route::get('/edit/{id}',[leaveController::class, 'edit'])->name('leave.edit');
         Route::post('/update/{id}',[leaveController::class, 'update'])->name('leave.update');
         Route::get('/delete/{id}',[leaveController::class, 'destroy'])->name('leave.delete');
@@ -146,7 +151,7 @@ Route::get('/dashboard', function () {
         Route::get('/index',[AdminController::class, 'index'])->name('admin.index');
         Route::get('/create',[AdminController::class, 'create'])->name('admin.create');
         Route::post('/store',[AdminController::class, 'store'])->name('admin.store');
-        Route::post('/getrooms',[AdminController::class, 'getRooms'])->name('admin.rooms');
+        // Route::post('/getrooms',[AdminController::class, 'getRooms'])->name('admin.rooms');
         Route::get('/edit/{id}',[AdminController::class, 'edit'])->name('admin.edit');
         Route::post('/update/{id}',[AdminController::class, 'update'])->name('admin.update');
         Route::get('/delete/{id}',[AdminController::class, 'destroy'])->name('admin.delete');

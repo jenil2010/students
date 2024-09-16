@@ -39,7 +39,7 @@ class studentsController extends Controller
     public function store(Request $request)
     {
         $student = $request->all();
-      
+        // dd($student);
         $validation = validator($student,[
             'first_name' => 'required|alpha:ascii',
             'middle_name' => 'required|alpha:ascii',

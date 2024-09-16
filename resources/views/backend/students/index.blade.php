@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Warden')
+@section('title', 'Students')
 
 @section('content')
     {{-- <div class="container mx-auto px-4 lg:w-4/5 xl:w-3/4"> --}}
@@ -13,9 +13,9 @@
 
         <div class="card-header flex-column flex-md-row border-bottom">
             <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="card-title m-0 me-2 text-secondary">Warden</h5>
+                <h5 class="card-title m-0 me-2 text-secondary">Students</h5>
                 <a href="{{ route('students.create') }}" class="btn btn-primary"><i class="mdi mdi-plus me-sm-1"></i><span
-                        class="d-none d-sm-inline-block">Warden</span></a>
+                        class="d-none d-sm-inline-block">Students</span></a>
             </div>
             <div class="row grid grid-cols-2 gap-4">
                 <div class="form-floating form-floating-outline mb-6 col-auto">

@@ -86,6 +86,8 @@
                     success: function(response) {
                         $('#room').html('<option value="" selected>Select Rooms</option>');
                         $.each(response, function(key, value) {
+                            console.log(value);
+                            
                             $('#room').append('<option value="' + value.id + '">' +
                                 value.room_number + '</option>');
                         });

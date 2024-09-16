@@ -187,7 +187,7 @@
 
         <!-- Layouts -->
         <li class="menu-item {{ in_array(Route::current()->getName(), ['addmission.index', 'addmission.create', 'addmission.edit']) ? 'active' : '' }}" >
-            <a href="{{ route('addmission.create') }}" class="menu-link">
+            <a href="{{ route('addmission.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
                 <div data-i18n="Addmission">Addmission</div>
             </a>

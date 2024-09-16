@@ -102,13 +102,13 @@ class roomsController extends Controller
     public function destroy(string $id)
     {
         $rooms = rooms::find($id);
-        $beds = DB::table('beds')->find($id);
-        if($beds == ''){
+        // $beds = DB::table('beds')->find($id);
+        // if($beds == ''){
         $rooms->delete();
         return redirect()->back()->with(['status' => 'Room deleted successfully.' , 'alert-type' => 'success']);
-        } else {
-            return redirect()->back()->with(['status' => 'Cannot delete a Booked room .', 'alert-type' => 'warning']);
-        }
+        // } else {
+        //     return redirect()->back()->with(['status' => 'Cannot delete a Booked room .', 'alert-type' => 'warning']);
+        // }
     }
 
     public function data()
