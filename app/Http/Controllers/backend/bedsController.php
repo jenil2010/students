@@ -117,12 +117,33 @@ class bedsController extends Controller
     public function destroy(string $id)
     {
         $beds = beds::find($id);
-        // if($beds->status == 1){
-        //     return redirect()->route('beds.index')->with(['status' => 'Cannot delete a Booked Bed .' , 'alert-type' => 'warning']);
-        // }else{
+        if($beds->status == 1){
+            return redirect()->route('beds.index')->with(['status' => 'Cannot delete a Booked Bed .' , 'alert-type' => 'warning']);
+        }else{
             $beds->delete();
             return redirect()->route('beds.index')->with(['status' => 'Bed Deleted Succesfully .', 'alert-type' => 'danger']);
-        // }
+        }
+    }
+
+    public function getNextFiveYears()
+    {
+        $nextFiveYears = [];
+        $currentYear = date("Y");
+        
+        for ($i = 3; $i > 0; $i--) {
+            $startYear = $currentYear - $i;
+            $endYear = $currentYear - $i + 1;
+            $nextFiveYears[] = "$startYear-$endYear";
+        }
+        for ($i = 0; $i < 5; $i++) {
+            $startYear = $currentYear + $i;
+            // dd($startYear);
+            $endYear = $currentYear + $i + 1;
+            $nextFiveYears[] = "$startYear"."-"."$endYear";
+        }
+
+
+        return $nextFiveYears;
     }
 
     public function data()
@@ -134,4 +155,32 @@ class bedsController extends Controller
         return DataTables::of($beds)  
             ->make(true);
     }
+    public function Avail_beds()
+    {
+        $hostel = hostels::all();
+        $year = $this->getNextFiveYears();
+        // dd($year);
+       return view('backend.beds.availableBeds',compact('hostel','year'));
+    }
+    public function Available(Request $request)
+    {
+        $hostel = $request->hostel_id;
+        $year = $request->year;
+    
+        $bedsQuery = beds::when($year, function($query) use ($year) {
+                list($startYear, $endYear) = explode('-', $year);
+                return $query->whereYear('created_at', '>=', $startYear)
+                             ->whereYear('created_at', '<=', $endYear);
+            })->when($hostel, function($query) use ($hostel) {
+                return $query->where('hostel_id', $hostel);
+            })->where('status', 0)
+            ->with('rooms');
+    
+
+        $beds = $bedsQuery->get();
+    
+        return DataTables::of($beds)
+            ->make(true);
+    }
+    
 }

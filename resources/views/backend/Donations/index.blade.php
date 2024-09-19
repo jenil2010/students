@@ -10,158 +10,6 @@
         </div>
     @endif
 
-    <!-- Button trigger modal -->
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="modalCenterTitle">Send Remarks</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('addmission.note') }}" method="post">
-                        @csrf
-                        <input type="hidden" name="student_id" id="student_id" value="">
-                        <div class="row">
-                            <div class="col mb-4 mt-2">
-                                <div class="form-floating form-floating-outline">
-                                    <select class="form-select select2" id="admission_status" name="admission_status"
-                                        tabindex="-1">
-                                        <option value="0">Pending</option>
-                                        <option value="1">Confirm</option>
-                                        <option value="2">Reject</option>
-                                        <option value="3">Cancelled</option>
-                                        <option value="4">Release</option>
-                                    </select>
-                                    <label for="result_Status">Addmission status</label>
-                                    <small class="text-red-600">
-                                        @error('result_Status')
-                                            {{ $message }}
-                                        @enderror
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col mb-4 mt-2">
-                                <div class="form-floating form-floating-outline ">
-                                    <input type="text" class="form-control" id="remark" placeholder="Remarks"
-                                        name="remark" value="{{ old('remark') }}">
-                                    <label for="basic-default-remark">Remarks</label>
-                                    <small class="text-red-600">
-                                        @error('remark')
-                                            {{ $message }}
-                                        @enderror
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                Close
-                            </button>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{-- room --}}
-    <div class="modal fade" id="modalroom" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="modalCenterTitle">Send Remarks</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('addmission.Reserve') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="student_id" id="addmission_id" value="">
-                        <input type="hidden" name="addmission_id" id="add_id" value="">
-                        <input type="hidden" name="is_bed_release" id="is_bed_release" value="1">
-                        <div class="row">
-                            <div class="col mb-4 mt-2">
-                                <div class="form-floating form-floating-outline">
-                                    <select class="form-select" id="hostel" name="hostel_id"
-                                        onchange="return getRooms()">
-                                        <option value="">Select Hostel</option>
-                                        @foreach ($hostel as $item)
-                                            <option value="{{ $item->id }}"
-                                                {{ old('hostel_id') === $item->id ? 'selected' : '' }}>
-                                                {{ $item->hostel_name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <label for="basic-default-country">Hostel</label>
-                                    <small class="text-red-600">
-                                        @error('hostel_id')
-                                            {{ $message }}
-                                        @enderror
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col mb-4 mt-2">
-                                <div class="form-floating form-floating-outline">
-                                    <select class="form-select" id="room" name="room_id"
-                                        onchange="return getBeds()">
-                                        <option value="">Select Rooms</option>
-                                        @foreach ($rooms as $item)
-                                            <option value="{{ $item->id }}"
-                                                {{ old('room_id') === $item->id ? 'selected' : '' }}>
-                                                {{ $item->room_number }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <label for="basic-default-country">Rooms</label>
-                                    <small class="text-red-600">
-                                        @error('room_id')
-                                            {{ $message }}
-                                        @enderror
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col mb-4 mt-2">
-                                <div class="form-floating form-floating-outline">
-                                    <select class="form-select" id="bed" name="bed_id">
-                                        <option value="">Select beds</option>
-                                        @foreach ($beds as $item)
-                                            <option value="{{ $item->id }}"
-                                                {{ old('bed_id') === $item->id ? 'selected' : '' }}>
-                                                {{ $item->bed_number }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <label for="basic-default-country">Beds</label>
-                                    <small class="text-red-600">
-                                        @error('bed_id')
-                                            {{ $message }}
-                                        @enderror
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                Close
-                            </button>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
     {{-- fees --}}
     <div class="modal fade" id="modalfees" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -176,13 +24,33 @@
                         <input type="hidden" name="addmission_id" id="fees_addmission_id" value="">
                         <div class="row">
                             <div class="col mb-4 mt-2">
+                                <div class="form-floating form-floating-outline col-auto">
+                                    <select class="form-select select2" id="student_id" name="student_id">
+                                        <option value="" selected="">Select Student</option>
+                                        @foreach ($student as $item)
+                                            <option value="{{ $item->id }}" >
+                                                {{ $item->first_name . ' ' . $item->last_name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <label for="country_id">Student</label>
+                                    <small class="text-red-600">
+                                        @error('country')
+                                            {{ $message }}
+                                        @enderror
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col mb-4 mt-2">
                                 <div class="form-floating form-floating-outline ">
                                     <input type="text" class="form-control" id="fees_amount"
                                         placeholder="Fees Amount" name="fees_amount" value="{{ old('fees_amount') }}">
                                     <label for="basic-default-fees_amount">Fees Amount</label>
                                     <small class="text-red-600">
                                         @error('fees_amount')
-                                            5 {{ $message }}
+                                            {{ $message }}
                                         @enderror
                                     </small>
                                 </div>
@@ -318,7 +186,7 @@
         <div class="card-header flex-column flex-md-row border-bottom">
             <div class="card-header d-flex align-items-center justify-content-between">
                 <h5 class="card-title m-0 me-2 text-secondary">Addmission</h5>
-                <a href="{{ route('addmission.create') }}" class="btn btn-primary"><i
+                <a href="{{ route('addmission.create') }}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalfees" type="button"><i
                         class="mdi mdi-plus me-sm-1"></i><span class="d-none d-sm-inline-block">Addmission</span></a>
             </div>
             <hr>
@@ -330,20 +198,13 @@
                             <th>Id</th>
                             <th>Student Name</th>
                             <th>Gender</th>
-                            <th>Mobile Number</th>
-                            <th>Email Id</th>
-                            <th>Village</th>
-                            <th>Father's Name</th>
-                            <th>Father's No</th>
-                            <th>Qualification</th>
-                            <th>Semester</th>
-                            <th>Collage Name/Institute Name</th>
-                            <th>Admission Date</th>
-                            <th>Admission Status</th>
-                            <th>Fees Status</th>
-                            <th>Admission Old/New</th>
-                            <th>Fees</th>
-                            <th>Room Allotment</th>
+                            <th>Payment Type</th>
+                            <th>Payment Term</th>
+                            <th>Amount</th>
+                            <th>Paid At</th>
+                            <th>Admission Year</th>
+                            <th>Transaction Number</th>
+                            <th>Donation Type</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -370,7 +231,7 @@
                         scrollX: true,
                         lengthMenu: [10, 25, 50, 100, 1000, 10000],
                         ajax: {
-                            url: "{{ route('addmission.data') }}",
+                            url: "{{ route('donation.data') }}",
                         },
                         columns: [{
                                 data: ''
@@ -379,88 +240,31 @@
                                 data: 'id'
                             },
                             {
-                                data: function(row) {
-                                    return `${row.first_name} ${row.middle_name ? row.middle_name + ' ' : ''}${row.last_name}`;
-                                }
+                                data: 'student_name'
                             },
                             {
-                                data: 'gender'
+                                data: 'addmission.gender'
                             },
                             {
-                                data: 'phone'
+                                data: 'payment_type'
                             },
                             {
-                                data: 'email'
+                                data: 'payment_method'
                             },
                             {
-                                data: 'village'
+                                data: 'fees_amount'
                             },
                             {
-                                data: 'father_full_name'
+                                data: 'paid_at'
                             },
                             {
-                                data: 'father_phone'
+                                data: 'financial_year'
                             },
                             {
-                                data: 'father_phone'
+                                data: 'transaction_number'
                             },
                             {
-                                data: 'semester'
-                            },
-                            {
-                                data: 'institute_name'
-                            },
-                            {
-                                data: 'addmission_date'
-                            },
-                            {
-                                data: 'is_admission_confirm',
-                                render: function(data, type, row) {
-                                    if (row.is_admission_confirm == 0) {
-                                        return "<span>Pending</span>"
-                                    } else if (row.is_admission_confirm == 1) {
-                                        return "<span>Confirm</span>"
-                                    } else if (row.is_admission_confirm == 2) {
-                                        return "<span>Rejected</span>"
-                                    }
-                                }
-                            },
-                            {
-                                data: 'is_fees_paid',
-                                render: function(data, type, row) {
-                                    // console.log("FEES:",row);
-                                    var statusText = row.is_fees_paid === 0 ? "Unpaid" : "Paid";
-                                    return "<span>" + statusText + "</span>";
-                                }
-                            },
-                            {
-                                data: 'college_fees_receipt_no'
-                            },
-                            {
-                                data: function(row) {
-                                    var id = row.student_id;
-                                    console.log("FEESss:", id);
-                                    console.log("confirm:-", row.is_admission_confirm);
-                                    console.log("paid:-", row.is_fees_paid);
-
-                                    if (row.is_admission_confirm == 0 && row.is_fees_paid == 0) {
-                                        return "<span>Addmission Not Confirm</span>";
-                                    } else {
-                                        return `<button type="button" class="btn btn-primary edit-btn" data-bs-toggle="modal" data-bs-target="#modalfees" data-student="${id}">Pay</button>`
-                                    }
-                                }
-                            },
-                            {
-                                data: function(row) {
-                                    var id = row.id;
-                                    // console.log("FEESss:", id);
-
-                                    if (row.is_admission_confirm == 0 && row.is_fees_paid == 0) {
-                                        return "<span>Addmission Not Confirm</span>";
-                                    } else {
-                                        return `<button type="button" class="btn btn-primary edit-btn" data-bs-toggle="modal" data-bs-target="#modalroom" data-addmission="${id}" data-student="${row.student_id}">Allot Room</button>`
-                                    }
-                                }
+                                data: 'donation_type'
                             },
                             {
                                 // Actions

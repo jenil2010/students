@@ -258,6 +258,24 @@
                 <div data-i18n="Admin">Admin</div>
             </a>
         </li>
+        <li class="menu-item {{ in_array(Route::current()->getName(), ['beds.avail']) ? 'active' : '' }}" >
+            <a href="{{ route('beds.avail') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                <div data-i18n="Available Beds">Available Beds</div>
+            </a>
+        </li>
+        <li class="menu-item {{ in_array(Route::current()->getName(), ['donation.index']) ? 'active' : '' }}" >
+            <a href="{{ route('donation.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                <div data-i18n="Donation">Donation</div>
+            </a>
+        </li>
+        <li class="menu-item {{ in_array(Route::current()->getName(), ['report.index']) ? 'active' : '' }}" >
+            <a href="{{ route('report.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                <div data-i18n="Alloted Students">Alloted Students</div>
+            </a>
+        </li>
         
             {{-- <ul class="menu-sub">
                 <li class="menu-item">

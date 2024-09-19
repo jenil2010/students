@@ -19,6 +19,7 @@ use DateTime;
 use DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
+use Mail;
 use Yajra\DataTables\Facades\DataTables;
 
 class addmissionController extends Controller
@@ -339,10 +340,23 @@ class addmissionController extends Controller
     public function note(Request $request)
     {
         $id = $request->input("student_id");
+        $Addmission = Addmission::where('student_id',$id)->first();
+        $email = $Addmission['email'];
         // dd($id);
         $student = [];
         $student["is_admission_confirm"] = $request->input("admission_status");
         $student["note"] = $request->input("remark");
+        $data = [
+            'student' => $student,
+            'Addmission' => $Addmission,
+        ];
+        // dd($student);
+        // $viewContent = view('backend.mail.addmission_confirm',compact('student','Addmission'))->render();
+        Mail::send('backend.mail.addmission_confirm', $data, function($message) use ($email) {
+            $message->to($email)
+                    ->subject('Admission Responce');
+                    
+        });
         Addmission::where("student_id", (int) $id)->update($student);
 
         return redirect()->route("addmission.index");
@@ -408,10 +422,11 @@ class addmissionController extends Controller
     public function Reserve(Request $request)
     {
         $data = $request->all();
+       
 
         $validation = validator($data, [
             "student_id" => "required",
-            "admission_id" => "required",
+            "addmission_id" => "required",
             "hostel_id" => "required",
             "room_id" => "required",
             "bed_id" => "required",
@@ -425,13 +440,15 @@ class addmissionController extends Controller
         }
 
         $year = date("Y");
-
         $existingReservation = Student_map::where(
             "student_id",
             $request->student_id
         )
             ->where("addmission_id", $request->addmission_id)
             ->first();
+            
+
+
 
         if ($existingReservation) {
             $existingReservation->update([
@@ -442,11 +459,12 @@ class addmissionController extends Controller
                 "is_bed_release" => 1,
             ]);
 
-            beds::where('room_id',$request->room_id)
-                    ->where('bed_id',$request->bed_id)
+            $bed = beds::where('room_id',$request->room_id)
+                    ->where('id',$request->bed_id)
                     ->update([
                         'status' => 1,
                     ]);
+        // dd($bed);
 
             return redirect()
                 ->route("addmission.index")
@@ -464,7 +482,7 @@ class addmissionController extends Controller
                 "addmission_year" => $year,
                 "is_bed_release" => 1,
             ]);
-            beds::where('bed_id',$request->bed_id)->update([
+            beds::where('id',$request->bed_id)->update([
                         'status' => 1,
                     ]);
 
@@ -511,8 +529,8 @@ class addmissionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $user = auth()->user()->id;
-        dd($user);
+        $user = Auth::id();
+        // dd($user);
         $addmission = Addmission::find($id);
         $student = $request->all();
         $rules = [

@@ -7,12 +7,14 @@ use App\Http\Controllers\backend\complainController;
 use App\Http\Controllers\backend\CourseController;
 use App\Http\Controllers\backend\hostelController;
 use App\Http\Controllers\backend\leaveController;
+use App\Http\Controllers\backend\ReportController;
 use App\Http\Controllers\backend\roleController;
 use App\Http\Controllers\backend\roomsController;
 use App\Http\Controllers\backend\SettingsController;
 use App\Http\Controllers\backend\studentsControler;
 use App\Http\Controllers\backend\studentsController;
 use App\Http\Controllers\backend\wardenController;
+use App\Http\Controllers\DonationController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -106,6 +108,8 @@ Route::get('/dashboard', function () {
         Route::post('/update/{id}',[bedsController::class, 'update'])->name('beds.update');
         Route::get('/delete/{id}',[bedsController::class, 'destroy'])->name('beds.delete');
         Route::get('/data',[bedsController::class, 'data'])->name('beds.data');
+        Route::get('/available',[bedsController::class, 'Available'])->name('beds.available');
+        Route::get('/available_beds',[bedsController::class, 'Avail_beds'])->name('beds.avail');
 
     });
 
@@ -171,6 +175,15 @@ Route::get('/dashboard', function () {
         Route::get('/{role}/edit', [roleController::class, 'edit'])->name('roles.edit');
         Route::put('/{id}', [roleController::class, 'update'])->name('roles.update');
         Route::get('delete/{id}', [roleController::class, 'destroy'])->name('roles.destroy');
+    });
+
+    Route::group(['prefix' => 'Donation'], function(){
+        Route::get('/index',[DonationController::class, 'index'])->name('donation.index');
+        Route::get('/data',[DonationController::class, 'data'])->name('donation.data');
+    });
+    Route::group(['prefix' => 'Report'], function(){
+        Route::get('/index',[ReportController::class, 'index'])->name('report.index');
+        Route::get('/allotedStuent',[ReportController::class, 'allotedStuent'])->name('report.allotedStuent');
     });
 // });
 
