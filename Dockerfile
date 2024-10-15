@@ -1,6 +1,10 @@
-FROM richarvey/nginx-php-fpm:1.7.2
+FROM php:8.2-fpm
 
-COPY . .
+# Install Nginx
+RUN apt-get update && apt-get install -y nginx
+
+# Copy your application files
+COPY . /var/www/html
 
 # Image config
 ENV SKIP_COMPOSER 1
@@ -17,4 +21,11 @@ ENV LOG_CHANNEL stderr
 # Allow composer to run as root
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
-CMD ["/start.sh"]
+# Copy Nginx configuration
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Expose the port Nginx is running on
+EXPOSE 80
+
+# Start Nginx and PHP-FPM
+CMD ["sh", "-c", "service nginx start && php-fpm"]
