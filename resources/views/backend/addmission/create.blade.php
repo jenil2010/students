@@ -46,10 +46,12 @@
                 </div>
             </div>
             <div class="bs-stepper-content m-5">
-                <form action="{{ route('addmission.store') }}" method="POST" id="num" enctype="multipart/form-data" >
+                <form action="{{ route('addmission.store') }}" method="POST" id="num" enctype="multipart/form-data"
+                    data-parsley-validate>
                     @csrf
                     <!-- Account Details -->
-                    <div id="account-details-modern-vertical" class="content">
+                    <input type="hidden" name="studentId" id="studentId">
+                    <div id="account-details-modern-vertical" class="content step-0">
                         <div class="content-header mb-3">
                             <h6 class="mb-0">Basic Details</h6>
                             {{-- <small>Enter Your Account Details.</small> --}}
@@ -57,19 +59,18 @@
                         <div class="row g-4">
                             <div class="col-sm-4">
                                 <div class="form-floating form-floating-outline col-auto">
-                                    <select class="form-select select2" id="student_id" name="student_id">
+                                    <select class="form-select select2" id="student_id" name="student_id" required
+                                        data-parsley-errors-container="#studentError">
                                         <option value="" selected="">Select Student</option>
                                         @foreach ($student as $item)
-                                            <option value="{{ $item->id }}" >
+                                            <option value="{{ $item->id }}">
                                                 {{ $item->first_name . ' ' . $item->last_name }}
                                             </option>
                                         @endforeach
                                     </select>
                                     <label for="country_id">Student</label>
                                     <small class="text-red-600">
-                                        @error('country')
-                                            {{ $message }}
-                                        @enderror
+                                        <div id="studentError"></div>
                                     </small>
                                 </div>
                             </div>
@@ -152,7 +153,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-floating form-floating-outline ">
-                                    <select class="form-select" id="gender" name="gender">
+                                    <select class="form-select select2" id="gender" name="gender">
                                         <option value="">Select Gender</option>
                                         <option value="male" {{ old('gender') === 'male' ? 'selected' : '' }}>Male
                                         </option>
@@ -170,9 +171,9 @@
                             <div class="col-sm-4">
                                 <div class="form-floating form-floating-outline ">
                                     <select class="form-select select2" id="country_id" name="country_id">
-                                        <option value="" >Select Country</option>
+                                        <option value="">Select Country</option>
                                         @foreach ($country as $item)
-                                            <option value="{{ $item->id }}" >{{ $item->name }}
+                                            <option value="{{ $item->id }}">{{ $item->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -336,22 +337,23 @@
                             <div class="col-sm-4">
                                 <div class="form-floating form-floating-outline ">
                                     <input type="number" class="form-control" id="adhaar_number"
-                                        placeholder="Aadhaar Number" name="adhaar_number" maxlength="12"
-                                        pattern="\d{12}" value="{{ old('adhaar_number') }}">
+                                        placeholder="Aadhaar Number" name="adhaar_number"
+                                        data-parsley-error-message="Enter 12 digit Aadhaar Number."
+                                        data-parsley-errors-container="#AadhaarError" data-parsley-length="[12, 12]"
+                                        value="{{ old('adhaar_number') }}" required>
                                     <label for="basic-default-phone">Aadhaar Number</label>
-                                    <small class="text-red-600">
-                                        @error('adhaar_number')
-                                            {{ $message }}
-                                        @enderror
+                                    <small class="text-red-600" id="AadhaarError">
+
                                     </small>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-floating form-floating-outline ">
                                     <input type="text" class="form-control" id="nationality"
-                                        placeholder="Nationality" name="nationality" value="{{ old('nationality') }}">
+                                        placeholder="Nationality" name="nationality" value="{{ old('nationality') }}"
+                                        required data-parsley-errors-container="#nationalityError">
                                     <label for="basic-default-last_name">Nationality</label>
-                                    <small class="text-red-600">
+                                    <small class="text-red-600" id="nationalityError">
                                         @error('nationality')
                                             {{ $message }}
                                         @enderror
@@ -380,7 +382,7 @@
                                         value="{{ old('illness_description') }}">
                                     <label for="basic-default-last_name">Describe your
                                         illness in brief</label>
-                                    <small class="text-red-600">
+                                    <small class="text-red-600" id="illness_descriptionError">
                                         @error('illness_description')
                                             {{ $message }}
                                         @enderror
@@ -506,7 +508,7 @@
                                     <i class="mdi mdi-arrow-left me-sm-1 me-0"></i>
                                     <span class="align-middle d-sm-inline-block d-none">Previous</span>
                                 </button>
-                                <button type="button" class="btn btn-primary btn-next">
+                                <button type="button" class="btn btn-primary btn-next" >
                                     <span class="align-middle d-sm-inline-block d-none me-sm-1">Next</span>
                                     <i class="mdi mdi-arrow-right"></i>
                                 </button>
@@ -514,7 +516,7 @@
                         </div>
                     </div>
                     <!-- Personal Info -->
-                    <div id="personal-info-modern-vertical" class="content">
+                    <div id="personal-info-modern-vertical" class="content step-1">
                         <div class="content-header mb-3">
                             <h6 class="mb-0">Family Details</h6>
                             {{-- <small>Enter Your Personal Info.</small> --}}
@@ -524,7 +526,7 @@
                                 <div class="form-floating form-floating-outline ">
                                     <input type="text" class="form-control" id="father_full_name"
                                         placeholder="Father Name" name="father_full_name"
-                                        value="{{ old('father_full_name') }}">
+                                        value="{{ old('father_full_name') }}" required>
                                     <label for="basic-default-father_full_name">Father Full Name</label>
                                     <small class="text-red-600">
                                         @error('father_full_name')
@@ -537,7 +539,7 @@
                                 <div class="form-floating form-floating-outline ">
                                     <input type="number" class="form-control" id="father_phone"
                                         placeholder="Father Contact Number" name="father_phone" maxlength="10"
-                                        pattern="\d{10}" value="{{ old('father_phone') }}">
+                                        pattern="\d{10}" value="{{ old('father_phone') }}" required>
                                     <label for="basic-default-father_phone">Father Contact Number</label>
                                     <small class="text-red-600">
                                         @error('father_phone')
@@ -550,7 +552,7 @@
                                 <div class="form-floating form-floating-outline ">
                                     <input type="text" class="form-control" id="father_occupation"
                                         placeholder="Father Occupation" name="father_occupation"
-                                        value="{{ old('father_occupation') }}">
+                                        value="{{ old('father_occupation') }}" required>
                                     <label for="basic-default-father_occupation">Father Occupation</label>
                                     <small class="text-red-600">
                                         @error('father_occupation')
@@ -563,7 +565,7 @@
                                 <div class="form-floating form-floating-outline ">
                                     <input type="text" class="form-control" id="mother_full_name"
                                         placeholder="Mother Name" name="mother_full_name"
-                                        value="{{ old('mother_full_name') }}">
+                                        value="{{ old('mother_full_name') }}"required>
                                     <label for="basic-default-mother_full_name">Mother Full Name</label>
                                     <small class="text-red-600">
                                         @error('mother_full_name')
@@ -576,7 +578,7 @@
                                 <div class="form-floating form-floating-outline ">
                                     <input type="number" class="form-control" id="mother_phone"
                                         placeholder="Mother Contact Number" name="mother_phone" maxlength="10"
-                                        pattern="\d{10}" value="{{ old('mother_phone') }}">
+                                        pattern="\d{10}" value="{{ old('mother_phone') }}" required>
                                     <label for="basic-default-mother_phone">Mother Contact Number</label>
                                     <small class="text-red-600">
                                         @error('mother_phone')
@@ -589,7 +591,7 @@
                                 <div class="form-floating form-floating-outline ">
                                     <input type="text" class="form-control" id="mother_occupation"
                                         placeholder="Mother Occupation" name="mother_occupation"
-                                        value="{{ old('mother_occupation') }}">
+                                        value="{{ old('mother_occupation') }}" required>
                                     <label for="basic-default-mother_occupation">Mother Occupation</label>
                                     <small class="text-red-600">
                                         @error('mother_occupation')
@@ -602,7 +604,7 @@
                                 <div class="form-floating form-floating-outline ">
                                     <input type="number" class="form-control" id="annual_income"
                                         placeholder="Annual Income" name="annual_income"
-                                        value="{{ old('annual_income') }}">
+                                        value="{{ old('annual_income') }}" required>
                                     <label for="basic-default-annual_income">Annual Income</label>
                                     <small class="text-red-600">
                                         @error('annual_income')
@@ -615,7 +617,7 @@
                                 <div class="form-floating form-floating-outline ">
                                     <input type="text" class="form-control" id="guardian_name"
                                         placeholder="Guardian Name" name="guardian_name"
-                                        value="{{ old('guardian_name') }}">
+                                        value="{{ old('guardian_name') }}" required>
                                     <label for="basic-default-guardian_name">Guardian Name(Ahmedabad Only)</label>
                                     <small class="text-red-600">
                                         @error('guardian_name')
@@ -628,7 +630,7 @@
                                 <div class="form-floating form-floating-outline ">
                                     <input type="text" class="form-control" id="guardian_relation"
                                         placeholder="Guardian Relation" name="guardian_relation"
-                                        value="{{ old('guardian_relation') }}">
+                                        value="{{ old('guardian_relation') }}" required>
                                     <label for="basic-default-guardian_relation">Guardian Relation(Ahmedabad Only)</label>
                                     <small class="text-red-600">
                                         @error('guardian_relation')
@@ -641,7 +643,7 @@
                                 <div class="form-floating form-floating-outline ">
                                     <input type="number" class="form-control" id="guardian_phone"
                                         placeholder="Guardian Contact Number" name="guardian_phone" maxlength="10"
-                                        pattern="\d{10}" value="{{ old('guardian_phone') }}">
+                                        pattern="\d{10}" value="{{ old('guardian_phone') }}" required>
                                     <label for="basic-default-guardian_phone">Guardian Contact Number(Ahmedabad
                                         Only)</label>
                                     <small class="text-red-600">
@@ -652,11 +654,11 @@
                                 </div>
                             </div>
                             <div class="col-12 d-flex justify-content-between">
-                                <button type="button" class="btn btn-outline-secondary btn-prev">
+                                <button type="button" class="btn btn-outline-secondary btn-prev" >
                                     <i class="mdi mdi-arrow-left me-sm-1 me-0"></i>
                                     <span class="align-middle d-sm-inline-block d-none">Previous</span>
                                 </button>
-                                <button type="button" class="btn btn-primary btn-next">
+                                <button type="button" class="btn btn-primary btn-next" >
                                     <span class="align-middle d-sm-inline-block d-none me-sm-1">Next</span>
                                     <i class="mdi mdi-arrow-right"></i>
                                 </button>
@@ -664,7 +666,7 @@
                         </div>
                     </div>
                     <!-- Social Links -->
-                    <div id="social-links-modern-vertical" class="content">
+                    <div id="social-links-modern-vertical" class="content step-3">
                         <div class="content-header mb-3">
                             <h6 class="mb-0">Social Links</h6>
                             <small>Enter Your Social Links.</small>
@@ -672,7 +674,7 @@
                         <div class="row g-4">
                             <div class="col-sm-4">
                                 <div class="form-floating form-floating-outline ">
-                                    <select class="form-select select2" id="course_id" name="course_id">
+                                    <select class="form-select select2" id="course_id" name="course_id" required>
                                         <option value="" selected="">Select course</option>
                                         @foreach ($course as $id => $item)
                                             <option value="{{ $id }}">{{ $item }}
@@ -689,7 +691,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-floating form-floating-outline ">
-                                    <select class="form-select select2" id="semester" name="semester">
+                                    <select class="form-select select2" id="semester" name="semester" required>
                                         <option value="" selected="">Select semester</option>
                                         @foreach ($sem as $item)
                                             <option value="{{ $item }}">{{ $item }}
@@ -709,7 +711,7 @@
                                 <div class="form-floating form-floating-outline ">
                                     <input type="text" class="form-control" id="institute_name"
                                         placeholder="Institute Name" name="institute_name"
-                                        value="{{ old('institute_name') }}">
+                                        value="{{ old('institute_name') }}" required>
                                     <label for="basic-default-institute_name">Institute Name</label>
                                     <small class="text-red-600">
                                         @error('institute_name')
@@ -720,9 +722,9 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-floating form-floating-outline ">
-                                    <select class="form-select select2" id="year_of_addmission"
-                                        name="year_of_addmission">
-                                        <option value="" >select Addmission Year</option>
+                                    <select class="form-select select2" id="year_of_addmission" name="year_of_addmission"
+                                        required>
+                                        <option value="">select Addmission Year</option>
                                         @foreach ($year as $id => $item)
                                             <option value="{{ $item }}">{{ $item }}
                                             </option>
@@ -738,22 +740,23 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-floating form-floating-outline ">
-                                    <input class="form-control flatpickr-validation flatpickr-input flatpickr-mobile" type="date" value="{{ old('addmission_date') }}"
-                                        name="addmission_date" id="addmission_date" placeholder="YYYY-MM-DD"/>
+                                    <input class="form-control flatpickr-validation flatpickr-input flatpickr-mobile"
+                                        type="date" value="{{ old('addmission_date') }}" name="addmission_date"
+                                        id="addmission_date" placeholder="YYYY-MM-DD" required />
                                     <label for="html5-date-input">Addmission Date</label>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-floating form-floating-outline ">
                                     <input class="form-control" type="time" name="college_start_time"
-                                        id="college_start_time" />
+                                        id="college_start_time" required />
                                     <label for="html5-time-input">College Start Time</label>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-floating form-floating-outline">
                                     <input class="form-control" type="time" name="college_end_time"
-                                        id="college_end_time" />
+                                        id="college_end_time" required />
                                     <label for="html5-time-input">College End Time</label>
                                 </div>
                             </div>
@@ -761,7 +764,7 @@
                                 <div class="form-floating form-floating-outline ">
                                     <input type="text" class="form-control" id="college_fees_receipt_no"
                                         placeholder="College Fees Receipt No" name="college_fees_receipt_no"
-                                        value="{{ old('college_fees_receipt_no') }}">
+                                        value="{{ old('college_fees_receipt_no') }}" required>
                                     <label for="basic-default-college_fees_receipt_no">College Fees Receipt No</label>
                                     <small class="text-red-600">
                                         @error('college_fees_receipt_no')
@@ -774,14 +777,14 @@
                                 <div class="form-floating form-floating-outline ">
                                     <input class="form-control" type="date"
                                         value="{{ old('college_fees_receipt_date') }}" name="college_fees_receipt_date"
-                                        id="college_fees_receipt_date" placeholder="YYYY-MM-DD"/>
+                                        id="college_fees_receipt_date" placeholder="YYYY-MM-DD" required />
                                     <label for="html5-date-input">College Fees Receipt Date</label>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-floating form-floating-outline ">
-                                    <input class="form-control" type="date"  value="{{ old('arriving_date') }}"
-                                        name="arriving_date" id="arriving_date" placeholder="YYYY-MM-DD"/>
+                                    <input class="form-control" type="date" value="{{ old('arriving_date') }}"
+                                        name="arriving_date" id="arriving_date" placeholder="YYYY-MM-DD" required />
                                     <label for="html5-date-input">Arriving Date</label>
                                 </div>
                             </div>
@@ -793,7 +796,7 @@
                                     </label>
                                     <span id="fileName4" class="custom-file-label">Upload Photo</span>
                                     <!-- Hidden file input -->
-                                    <input type="file" id="formFile4" name="student_photo_url" hidden />
+                                    <input type="file" id="formFile4" name="student_photo_url" hidden required />
                                 </div>
                             </div>
                             <div class="col-sm-4 ">
@@ -804,7 +807,7 @@
                                     </label>
                                     <span id="fileName5" class="custom-file-label">Upload Photo</span>
                                     <!-- Hidden file input -->
-                                    <input type="file" id="formFile5" name="parent_photo_url" hidden />
+                                    <input type="file" id="formFile5" name="parent_photo_url" hidden required />
                                 </div>
                             </div>
                             <hr>
@@ -817,7 +820,7 @@
                                             <!-- Document Type -->
                                             <div class="mb-0 col-lg-6 col-xl-3 col-12">
                                                 <div class="form-floating form-floating-outline">
-                                                    <select class="form-select" id="doctype" name="doctype">
+                                                    <select class="form-select" id="doctype" name="doctype" required>
                                                         <option value="" selected>Select Documents</option>
                                                         @foreach ($doc as $id => $item)
                                                             <option value="{{ $item }}">{{ $item }}
@@ -836,7 +839,8 @@
                                             <!-- Status -->
                                             <div class="mb-0 col-lg-6 col-xl-2 col-12">
                                                 <div class="form-floating form-floating-outline">
-                                                    <select class="form-select" id="result_Status" name="result_Status">
+                                                    <select class="form-select" id="result_Status" name="result_Status"
+                                                        required>
                                                         <option value="">Select Status</option>
                                                         <option value="pass">Pass</option>
                                                         <option value="fail">Fail</option>
@@ -857,7 +861,7 @@
                                                 <div class="form-floating form-floating-outline">
                                                     <input type="text" class="form-control" id="percentile"
                                                         placeholder="percentile" name="percentile"
-                                                        value="{{ old('percentile') }}">
+                                                        value="{{ old('percentile') }}" required>
                                                     <label for="percentile">Percentile</label>
                                                     <small class="text-red-600">
                                                         @error('percentile')
@@ -878,7 +882,8 @@
                                                         </label>
                                                         <!-- Hidden file input -->
                                                         <input type="file" id="formFile-0" name="doc"
-                                                            style="opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer;" />
+                                                            style="opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer;"
+                                                            required />
                                                         <span name="doc" id="fileName-0"
                                                             class="repeater-file-label">Upload Document</span>
                                                     </div>
@@ -909,7 +914,8 @@
                                     <i class="mdi mdi-arrow-left me-sm-1 me-0"></i>
                                     <span class="align-middle d-sm-inline-block d-none">Previous</span>
                                 </button>
-                                <input type="submit" class="btn btn-primary btn-submit" value="Submit">
+                                <input type="submit" class="btn btn-primary btn-submit" value="Submit"
+                                   >
                                 {{-- <button type="submit" class="btn btn-primary btn-submit">Submit</button> --}}
                             </div>
                         </div>
@@ -929,21 +935,73 @@
     <script src="{{ asset('assets/js/form-wizard-validation.js') }}"></script>
 
     <script>
-        $(document).ready(function() {
-            $(".select2").select2();
-            var stepper = new Stepper(document.querySelector('.bs-stepper'));
-            $('#num').parsley();
-            $('.btn-next').on('click', function() {
+        const wizardModernVertical = document.querySelector('.wizard-modern-vertical'),
+            wizardModernVerticalBtnNextList = [].slice.call(wizardModernVertical.querySelectorAll('.btn-next')),
+            wizardModernVerticalBtnPrevList = [].slice.call(wizardModernVertical.querySelectorAll('.btn-prev')),
+            wizardModernVerticalBtnSubmit = wizardModernVertical.querySelector('.btn-submit');
 
-                var form = $('#num').parsley();
-                if(form.validate()){
+        if (wizardModernVertical !== undefined && wizardModernVertical !== null) {
+            const modernVerticalStepper = new Stepper(wizardModernVertical, {
+                linear: false
+            });
 
-                    stepper.next();
+            if (wizardModernVerticalBtnNextList) {
+                wizardModernVerticalBtnNextList.forEach(wizardModernVerticalBtnNext => {
+                    wizardModernVerticalBtnNext.addEventListener('click', event => {
+                        const currentStep = wizardModernVertical.querySelector('.dstepper-block.active');
+
+                        const currentStepValid = validateStep(currentStep);
+
+                        if (currentStepValid) {
+                            modernVerticalStepper.next();
+                        } else {
+                            event.preventDefault(); 
+                        }
+                    });
+                });
+            }
+
+            if (wizardModernVerticalBtnPrevList) {
+                wizardModernVerticalBtnPrevList.forEach(wizardModernVerticalBtnPrev => {
+                    wizardModernVerticalBtnPrev.addEventListener('click', event => {
+                        modernVerticalStepper.previous();
+                    });
+                });
+            }
+
+            if (wizardModernVerticalBtnSubmit) {
+                wizardModernVerticalBtnSubmit.addEventListener('click', event => {
+                    const finalStep = wizardModernVertical.querySelector('.dstepper-block.active');
+
+                    const finalStepValid = validateStep(finalStep);
+
+                    if (finalStepValid) {
+                        alert('Submitted..!!');
+                    } else {
+                        event.preventDefault(); 
+                        alert('Please complete all fields correctly.');
+                    }
+                });
+            }
+        }
+
+        function validateStep(stepElement) {
+            const inputs = stepElement.querySelectorAll('input, select, textarea'); 
+            let isValid = true;
+
+            inputs.forEach(input => {
+                const parsleyInstance = $(input).parsley(); 
+                if (!parsleyInstance.isValid()) {
+                    isValid = false; 
                 }
             });
-            $('.btn-prev').on('click', function() {
-                stepper.previous();
-            });
+
+            return isValid;
+        }
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(".select2").select2();
 
             $('#password2-modern-vertical').on('click', function() {
                 var passwordField = $('#password-modern-vertical');
@@ -964,8 +1022,8 @@
                 console.log("id :-", id);
 
                 $.ajax({
-                    url: "{{ route('addmission.load') }}", 
-                    type: 'GET', 
+                    url: "{{ route('addmission.load') }}",
+                    type: 'GET',
                     data: {
                         id: id
                     },
@@ -974,6 +1032,7 @@
                         console.log("Response from server: ", response);
 
                         $("#email").val(response.email)
+                        $("#studentId").val(response.id)
                         $("#phone").val(response.phone)
                         $("#last_name").val(response.last_name)
                         $("#middle_name").val(response.middle_name)
@@ -984,42 +1043,6 @@
                         $("#address").val(response.address)
                         $('#country_id').val(response.country_id).trigger('change');
                         $('#village').val(response.village).trigger('change');
-                        $("#adhaar_number").val(response.adhaar_number)
-                        $("#annual_income").val(response.annual_income)
-                        $("#arriving_date").val(response.arriving_date);
-                        $("#college_end_time").val(response.college_end_time);
-                        $("#college_fees_receipt_date").val(response.college_fees_receipt_date);
-                        $("#college_fees_receipt_no").val(response.college_fees_receipt_no);
-                        $("#college_start_time").val(response.college_start_time);
-                        $('#course_id').val(response.course_id).trigger('change');
-                        $("#created_at").val(response.created_at);
-                        $("#father_full_name").val(response.father_full_name);
-                        $("#father_occupation").val(response.father_occupation);
-                        $("#father_phone").val(response.father_phone);
-                        $("#guardian_name").val(response.guardian_name);
-                        $("#guardian_phone").val(response.guardian_phone);
-                        $("#guardian_relation").val(response.guardian_relation);
-                        $("#institute_name").val(response.institute_name);
-                        $("#is_any_illness").prop('checked', response.is_any_illness == 1);
-                        $("#is_have_helmet").prop('checked', response.is_have_helmet == 1);
-                        $("#mother_full_name").val(response.mother_full_name);
-                        $("#mother_occupation").val(response.mother_occupation);
-                        $("#mother_phone").val(response.mother_phone);
-                        $("#nationality").val(response.nationality);
-                        $("#formFile5").val(response.parent_photo_url);
-                        $("#rcbook_back_doc_url").val(response.rcbook_back_doc_url);
-                        $("#rcbook_front_doc_url").val(response.rcbook_front_doc_url);
-                        $('#semester').val(response.semester).trigger('change');
-                        $("#student_id").val(response.student_id);
-                        $("#formFile4").val(response.student_photo_url);
-                        $("#updated_at").val(response.updated_at);
-                        $("#vehicle").val(response.vehicle);
-                        $("#vehicle_number").val(response.vehicle_number);
-                        $("#village").val(response.village);
-                        $('#year_of_addmission').val(response.year_of_addmission).trigger('change');
-
-
-
                     },
                     error: function(xhr, status, error) {
                         // Handle errors
@@ -1042,9 +1065,11 @@
                 if (value == '1') {
                     console.log("if :- ", value);
                     $('.student_illness_field').css('display', 'block');
+                    // $('#illness_description').attr('required', true);
                 } else {
                     console.log("else :- ", value);
                     $('.student_illness_field').css('display', 'none');
+                    // $('#illness_description').attr('required', false);
                 }
             }
 
@@ -1060,7 +1085,7 @@
                 console.log(value);
                 if (value == '1') {
                     $('.vehicle_details').css('display', 'block');
-                    // $('#illness_description').attr('required', false);
+                    // $('#illness_description').attr('required', true);
                 } else {
                     $('.vehicle_details').css('display', 'none');
                     // $('#illness_description').attr('required', false);
@@ -1080,7 +1105,7 @@
                 if (this.files.length > 0) {
                     $(fileNameSpanId).text(this.files[0].name);
                 } else {
-                    $(fileNameSpanId).text('Upload Photo'); // Reset the text if no file is selected
+                    $(fileNameSpanId).text('Upload Photo');
                 }
             });
 

@@ -18,10 +18,10 @@ return new class extends Migration
             $table->unsignedBigInteger('addmission_id')->index();
             $table->foreign('addmission_id')->references('id')->on('addmission');
             $table->string('addmission_year');
-            $table->unsignedBigInteger('hostel_id')->index();
+            $table->unsignedBigInteger('hostel_id')->index()->nullable();
             $table->foreign('hostel_id')->references('id')->on('hostels');
-            $table->string('room_id');
-            $table->unsignedBigInteger('bed_id');
+            $table->string('room_id')->nullable();
+            $table->unsignedBigInteger('bed_id')->nullable();
             $table->foreign('bed_id')->references('id')->on('beds');
             $table->string('is_bed_release')->default(0);
             $table->timestamps();

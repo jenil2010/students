@@ -29,6 +29,7 @@ class addmissionController extends Controller
      */
     public function index()
     {
+        // dd(Auth::user());
         $hostel = hostels::all();
         $addmission = Addmission::all();
         $rooms = collect();
@@ -59,7 +60,7 @@ class addmissionController extends Controller
      */
     public function create()
     {
-        $student = Addmission::all();
+        $student = Students::all();
         $country = country::all();
         $year = $this->getNextFiveYears();
         $course = course::all()
@@ -77,7 +78,7 @@ class addmissionController extends Controller
     }
     public function load(Request $request)
     {
-        $filterStudent = Addmission::where("id", $request->id)->first();
+        $filterStudent = Students::where("id", $request->id)->first();
         // dd($filterStudent);
         return response()->json($filterStudent);
         // return view('backend.addmission.create',compact('student'));
@@ -109,7 +110,8 @@ class addmissionController extends Controller
      */
     public function store(Request $request)
     {
-        $user = Auth::id();
+        // $user = $request->input('studentId');
+
 
         // dd($user);
         $student = $request->all();
@@ -307,7 +309,7 @@ class addmissionController extends Controller
             $item["result_Status"] = $item["result_Status"] ?? null;
         }
         // dd($item['doc']);
-        $studentId = Students::where("user_id", $user)
+        $studentId = Students::where("id", $request->input('studentId'))
             ->pluck("id")
             ->first();
         // dd($studentId);
@@ -340,9 +342,10 @@ class addmissionController extends Controller
     public function note(Request $request)
     {
         $id = $request->input("student_id");
-        $Addmission = Addmission::where('student_id',$id)->first();
-        $email = $Addmission['email'];
         // dd($id);
+        $Addmission = Addmission::where('student_id',$id)->first();
+        
+        $email = $Addmission['email'];
         $student = [];
         $student["is_admission_confirm"] = $request->input("admission_status");
         $student["note"] = $request->input("remark");
@@ -350,8 +353,6 @@ class addmissionController extends Controller
             'student' => $student,
             'Addmission' => $Addmission,
         ];
-        // dd($student);
-        // $viewContent = view('backend.mail.addmission_confirm',compact('student','Addmission'))->render();
         Mail::send('backend.mail.addmission_confirm', $data, function($message) use ($email) {
             $message->to($email)
                     ->subject('Admission Responce');
@@ -464,6 +465,22 @@ class addmissionController extends Controller
                     ->update([
                         'status' => 1,
                     ]);
+                    $admission = Addmission::where('id',$request->addmission_id)->first();
+                    $email = $admission['email'];
+                    $hostel = hostels::where('id',$request->hostel_id)->first();
+                    $room = rooms::where('id',$request->room_id)->first();
+                    $bed = beds::where('id',$request->bed_id)->first();
+                    $data = [
+                        'hostel' => $hostel,
+                        'admission' => $admission,
+                        'room' => $room,
+                        'bed' => $bed,
+                    ];
+                    Mail::send('backend.mail.room', $data, function($message) use ($email) {
+                        $message->to($email)
+                                ->subject('Room Allotment');
+                                
+                    });
         // dd($bed);
 
             return redirect()
@@ -485,6 +502,22 @@ class addmissionController extends Controller
             beds::where('id',$request->bed_id)->update([
                         'status' => 1,
                     ]);
+                    $admission = Addmission::where('id',$request->addmission_id)->first();
+                    $email = $admission['email'];
+                    $hostel = hostels::where('id',$request->hostel_id)->first();
+                    $rooms = rooms::where('id',$request->room_id)->first();
+                    $bed = beds::where('id',$request->bed_id)->first();
+                    $data = [
+                        'hostel' => $hostel,
+                        'admission' => $admission,
+                        'rooms' => $rooms,
+                        'bed' => $bed,
+                    ];
+                    Mail::send('backend.mail.room', $data, function($message) use ($email) {
+                        $message->to($email)
+                                ->subject('Room Allotment');
+                                
+                    });
 
             return redirect()
                 ->route("addmission.index")

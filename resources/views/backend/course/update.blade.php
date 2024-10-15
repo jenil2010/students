@@ -2,7 +2,7 @@
 @section('title','Course')
 @section('content')
 
-<div class="container-xxl d-flex h-100">
+
 
 <div class="col-md">
     <div class="card">

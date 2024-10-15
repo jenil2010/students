@@ -2,7 +2,7 @@
 @section('title', 'Create Course')
 
 @section('content')
-    <div class="container-xxl d-flex">
+    {{-- <div class="container-xxl d-flex"> --}}
         <div class="col-md">
             <div class="card">
                 <h5 class="card-header">Browser Default</h5>

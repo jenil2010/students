@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
+use Auth;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Leave extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $table = 'leaves';
     protected $primarykey = 'id';
@@ -25,5 +28,24 @@ class Leave extends Model
     }
     public function student(): BelongsTo{
         return $this->belongsTo(Students::class,'student_id','id');
+    }
+
+    protected static $logAttributes = ['*'];
+    protected static $logFillable = true;
+    protected static $recordEvents = ['created', 'updated', 'deleted'];
+    protected static $logOnlyDirty = true;
+    protected static $logUnguarded = true;
+    protected static $logName = 'leaves';
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        $userName = Auth::user()->name;
+
+        return LogOptions::defaults()
+            ->logOnly(['*'])
+            ->useLogName('leaves')
+            ->setDescriptionForEvent(function (string $eventName) use ($userName) {
+                return "{$userName} has {$eventName} leaves";
+            });
     }
 }

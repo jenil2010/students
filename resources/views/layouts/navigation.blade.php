@@ -143,13 +143,13 @@
                             d="M7.82901 2.22569C8.87231 0.444187 11.1726 -0.172113 12.9668 0.849138C14.7611 1.87039 15.3698 4.14247 14.3265 5.92397L7.38656 17.7743C6.34325 19.5558 4.04298 20.1721 2.24875 19.1509C0.454514 18.1296 -0.154233 15.8575 0.88907 14.076L7.82901 2.22569Z"
                             fill="currentColor" />
                         <defs>
-                            <linearGradient id="paint0_linear_2989_100980" x1="5.36642" y1="0.849138"
-                                x2="10.532" y2="24.104" gradientUnits="userSpaceOnUse">
+                            <linearGradient id="paint0_linear_2989_100980" x1="5.36642" y1="0.849138" x2="10.532"
+                                y2="24.104" gradientUnits="userSpaceOnUse">
                                 <stop offset="0" stop-opacity="1" />
                                 <stop offset="1" stop-opacity="0" />
                             </linearGradient>
-                            <linearGradient id="paint1_linear_2989_100980" x1="5.19475" y1="0.849139"
-                                x2="10.3357" y2="24.1155" gradientUnits="userSpaceOnUse">
+                            <linearGradient id="paint1_linear_2989_100980" x1="5.19475" y1="0.849139" x2="10.3357"
+                                y2="24.1155" gradientUnits="userSpaceOnUse">
                                 <stop offset="0" stop-opacity="1" />
                                 <stop offset="1" stop-opacity="0" />
                             </linearGradient>
@@ -175,7 +175,7 @@
 
     {{-- <div class="menu-inner-shadow"></div> --}}
 
-    <ul class="menu-inner py-1">
+    <ul class="menu-inner">
         <!-- Dashboards -->
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link">
@@ -183,183 +183,130 @@
                 <div data-i18n="Dashboards">Dashboards</div>
                 {{-- <div class="badge bg-primary rounded-pill ms-auto">5</div> --}}
             </a>
-         
-
-        <!-- Layouts -->
-        <li class="menu-item {{ in_array(Route::current()->getName(), ['addmission.index', 'addmission.create', 'addmission.edit']) ? 'active' : '' }}" >
-            <a href="{{ route('addmission.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
-                <div data-i18n="Addmission">Addmission</div>
-            </a>
         </li>
-        <li class="menu-item {{ in_array(Route::current()->getName(), ['course.index', 'course.create', 'course.edit']) ? 'active' : '' }}" >
-            <a href="{{ route('course.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
-                <div data-i18n="Course">Course</div>
-            </a>
-        </li>
-        <li class="menu-item {{ in_array(Route::current()->getName(), ['warden.index', 'warden.create', 'warden.edit']) ? 'active' : '' }}" >
-            <a href="{{ route('warden.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
-                <div data-i18n="Warden">Warden</div>
-            </a>
-        </li>
-        <li class="menu-item {{ in_array(Route::current()->getName(), ['hostel.index', 'hostel.create', 'hostel.edit']) ? 'active' : '' }}" >
-            <a href="{{ route('hostel.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
-                <div data-i18n="Hostel">Hostel</div>
-            </a>
-        </li>
-        <li class="menu-item {{ in_array(Route::current()->getName(), ['rooms.index', 'rooms.create', 'rooms.edit']) ? 'active' : '' }}" >
-            <a href="{{ route('rooms.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
-                <div data-i18n="Room">Rooms</div>
-            </a>
-        </li>
-        <li class="menu-item {{ in_array(Route::current()->getName(), ['beds.index', 'beds.create', 'beds.edit']) ? 'active' : '' }}" >
-            <a href="{{ route('beds.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
-                <div data-i18n="Bed">Beds</div>
-            </a>
-        </li>
-        <li class="menu-item {{ in_array(Route::current()->getName(), ['setting.index']) ? 'active' : '' }}" >
-            <a href="{{ route('setting.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
-                <div data-i18n="Settings">Settings</div>
-            </a>
-        </li>
-        <li class="menu-item {{ in_array(Route::current()->getName(), ['roles.index', 'roles.create', 'roles.edit']) ? 'active' : '' }}" >
-            <a href="{{ route('roles.create') }}" class="menu-link">
-                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
-                <div data-i18n="Roles">Roles</div>
-            </a>
-        </li>
-        <li class="menu-item {{ in_array(Route::current()->getName(), ['students.index', 'students.create', 'students.edit']) ? 'active' : '' }}" >
-            <a href="{{ route('students.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
-                <div data-i18n="Students">Students</div>
-            </a>
-        </li>
-        <li class="menu-item {{ in_array(Route::current()->getName(), ['complain.index', 'complain.create', 'complain.edit']) ? 'active' : '' }}" >
-            <a href="{{ route('complain.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
-                <div data-i18n="complain">complain</div>
-            </a>
-        </li>
-        <li class="menu-item {{ in_array(Route::current()->getName(), ['leave.index', 'leave.create', 'leave.edit']) ? 'active' : '' }}" >
-            <a href="{{ route('leave.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
-                <div data-i18n="leave">leave</div>
-            </a>
-        </li>
-        <li class="menu-item {{ in_array(Route::current()->getName(), ['admin.index', 'admin.create', 'admin.edit']) ? 'active' : '' }}" >
-            <a href="{{ route('admin.create') }}" class="menu-link">
-                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
-                <div data-i18n="Admin">Admin</div>
-            </a>
-        </li>
-        <li class="menu-item {{ in_array(Route::current()->getName(), ['beds.avail']) ? 'active' : '' }}" >
-            <a href="{{ route('beds.avail') }}" class="menu-link">
-                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
-                <div data-i18n="Available Beds">Available Beds</div>
-            </a>
-        </li>
-        <li class="menu-item {{ in_array(Route::current()->getName(), ['donation.index']) ? 'active' : '' }}" >
-            <a href="{{ route('donation.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
-                <div data-i18n="Donation">Donation</div>
-            </a>
-        </li>
-        <li class="menu-item {{ in_array(Route::current()->getName(), ['report.index']) ? 'active' : '' }}" >
-            <a href="{{ route('report.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
-                <div data-i18n="Alloted Students">Alloted Students</div>
-            </a>
-        </li>
-        
-            {{-- <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="layouts-collapsed-menu.html" class="menu-link">
-                        <div data-i18n="Collapsed menu">Add Course</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="layouts-content-navbar.html" class="menu-link">
-                        <div data-i18n="Content navbar">Content navbar</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="layouts-content-navbar-with-sidebar.html" class="menu-link">
-                        <div data-i18n="Content nav + Sidebar">Content nav + Sidebar</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="../horizontal-menu-template" class="menu-link" target="_blank">
-                        <div data-i18n="Horizontal">Horizontal</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="layouts-without-menu.html" class="menu-link">
-                        <div data-i18n="Without menu">Without menu</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="layouts-without-navbar.html" class="menu-link">
-                        <div data-i18n="Without navbar">Without navbar</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="layouts-fluid.html" class="menu-link">
-                        <div data-i18n="Fluid">Fluid</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="layouts-container.html" class="menu-link">
-                        <div data-i18n="Container">Container</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="layouts-blank.html" class="menu-link">
-                        <div data-i18n="Blank">Blank</div>
-                    </a>
-                </li>
-            </ul> --}}
-
-        <!-- Front Pages -->
-        <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons mdi mdi-flip-to-front"></i>
-                <div data-i18n="Front Pages">Front Pages</div>
+        <li class="menu-item" style="">
+            <a href="javascript:void(0);" class="menu-link menu-toggle waves-effect">
+                <i class="menu-icon tf-icons ri-shopping-bag-3-line"></i>
+                <div data-i18n="eCommerce">eCommerce</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="../front-pages/landing-page.html" class="menu-link" target="_blank">
-                        <div data-i18n="Landing">Landing</div>
+                <li
+                    class="menu-item {{ in_array(Route::current()->getName(), ['hostel.index', 'hostel.create', 'hostel.edit']) ? 'active' : '' }}">
+                    <a href="{{ route('hostel.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                        <div data-i18n="Hostel">Hostel</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="../front-pages/pricing-page.html" class="menu-link" target="_blank">
-                        <div data-i18n="Pricing">Pricing</div>
+                <li
+                    class="menu-item {{ in_array(Route::current()->getName(), ['rooms.index', 'rooms.create', 'rooms.edit']) ? 'active' : '' }}">
+                    <a href="{{ route('rooms.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                        <div data-i18n="Room">Rooms</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="../front-pages/payment-page.html" class="menu-link" target="_blank">
-                        <div data-i18n="Payment">Payment</div>
+                <li
+                    class="menu-item {{ in_array(Route::current()->getName(), ['beds.index', 'beds.create', 'beds.edit']) ? 'active' : '' }}">
+                    <a href="{{ route('beds.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                        <div data-i18n="Bed">Beds</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="../front-pages/checkout-page.html" class="menu-link" target="_blank">
-                        <div data-i18n="Checkout">Checkout</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="../front-pages/help-center-landing.html" class="menu-link" target="_blank">
-                        <div data-i18n="Help Center">Help Center</div>
+                <li class="menu-item {{ in_array(Route::current()->getName(), ['setting.index']) ? 'active' : '' }}">
+                    <a href="{{ route('setting.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                        <div data-i18n="Settings">Settings</div>
                     </a>
                 </li>
             </ul>
         </li>
 
-        
+        <!-- Layouts -->
+        <li
+            class="menu-item {{ in_array(Route::current()->getName(), ['addmission.index', 'addmission.create', 'addmission.edit']) ? 'active' : '' }}">
+            <a href="{{ route('addmission.index') }}" class="menu-link">
+                <i class="ri-bar-chart-box-fill"></i>
+                <div data-i18n="Addmission">Addmission</div>
+            </a>
+        </li>
+        <li
+            class="menu-item {{ in_array(Route::current()->getName(), ['course.index', 'course.create', 'course.edit']) ? 'active' : '' }}">
+            <a href="{{ route('course.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                <div data-i18n="Course">Course</div>
+            </a>
+        </li>
+        <li
+            class="menu-item {{ in_array(Route::current()->getName(), ['warden.index', 'warden.create', 'warden.edit']) ? 'active' : '' }}">
+            <a href="{{ route('warden.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                <div data-i18n="Warden">Warden</div>
+            </a>
+        </li>
+
+        <li
+            class="menu-item {{ in_array(Route::current()->getName(), ['roles.index', 'roles.create', 'roles.edit']) ? 'active' : '' }}">
+            <a href="{{ route('roles.create') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                <div data-i18n="Roles">Roles</div>
+            </a>
+        </li>
+        <li
+            class="menu-item {{ in_array(Route::current()->getName(), ['students.index', 'students.create', 'students.edit']) ? 'active' : '' }}">
+            <a href="{{ route('students.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                <div data-i18n="Students">Students</div>
+            </a>
+        </li>
+        <li
+            class="menu-item {{ in_array(Route::current()->getName(), ['complain.index', 'complain.create', 'complain.edit']) ? 'active' : '' }}">
+            <a href="{{ route('complain.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                <div data-i18n="complain">complain</div>
+            </a>
+        </li>
+        <li
+            class="menu-item {{ in_array(Route::current()->getName(), ['leave.index', 'leave.create', 'leave.edit']) ? 'active' : '' }}">
+            <a href="{{ route('leave.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                <div data-i18n="leave">leave</div>
+            </a>
+        </li>
+        <li
+            class="menu-item {{ in_array(Route::current()->getName(), ['admin.index', 'admin.create', 'admin.edit']) ? 'active' : '' }}">
+            <a href="{{ route('admin.create') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                <div data-i18n="Admin">Admin</div>
+            </a>
+        </li>
+        <li class="menu-item {{ in_array(Route::current()->getName(), ['beds.avail']) ? 'active' : '' }}">
+            <a href="{{ route('beds.avail') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                <div data-i18n="Available Beds">Available Beds</div>
+            </a>
+        </li>
+        <li class="menu-item {{ in_array(Route::current()->getName(), ['donation.index']) ? 'active' : '' }}">
+            <a href="{{ route('donation.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                <div data-i18n="Donation">Donation</div>
+            </a>
+        </li>
+        <li class="menu-item {{ in_array(Route::current()->getName(), ['report.index']) ? 'active' : '' }}">
+            <a href="{{ route('report.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                <div data-i18n="Alloted Students">Alloted Students</div>
+            </a>
+        </li>
+        <li class="menu-item {{ in_array(Route::current()->getName(), ['report.duefeesview']) ? 'active' : '' }}">
+            <a href="{{ route('report.duefeesview') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                <div data-i18n="Due Fees">Due Fees</div>
+            </a>
+        </li>
+        <li class="menu-item {{ in_array(Route::current()->getName(), ['log.create']) ? 'active' : '' }}">
+            <a href="{{ route('log.create') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-window-maximize"></i>
+                <div data-i18n="Activity Log">Activity Log</div>
+            </a>
+        </li>
     </ul>
 </aside>

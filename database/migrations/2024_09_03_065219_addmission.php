@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('addmission', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('student_id')->index();
+            $table->foreign('student_id')->references('id')->on('students');
             $table->string('first_name');
             $table->string('middle_name')->nullable();
             $table->string('last_name');
@@ -53,6 +55,9 @@ return new class extends Migration
             $table->string('college_fees_receipt_no')->nullable();
             $table->date('college_fees_receipt_date')->nullable();
             $table->date('arriving_date')->nullable();
+            $table->tinyInteger('is_fees_paid')->default(0)->comment("1 => Paid, 0 => UnPaid");
+            $table->tinyInteger('is_admission_confirm')->default(4)->comment("1 => Confirm, 0 => Not Confirm");
+            $table->string('note')->nullable();
             $table->longText('student_photo_url')->nullable(); 
             $table->longText('parent_photo_url')->nullable(); 
             $table->timestamps();

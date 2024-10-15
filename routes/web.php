@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\backend\addmissionController;
 use App\Http\Controllers\backend\AdminController;
 use App\Http\Controllers\backend\bedsController;
@@ -137,7 +138,7 @@ Route::get('/dashboard', function () {
 
     });
     
-    // Complains
+    // leaves
     Route::group(['prefix' => 'leaves'], function(){
         Route::get('/index',[leaveController::class, 'index'])->name('leave.index');
         Route::get('/create',[leaveController::class, 'create'])->name('leave.create');
@@ -162,11 +163,13 @@ Route::get('/dashboard', function () {
         Route::get('/data',[AdminController::class, 'data'])->name('admin.data');
     });
 
+    // Settings
     Route::group(['prefix' => 'Settings'], function(){
         Route::get('/index',[SettingsController::class, 'index'])->name('setting.index');
         Route::post('/store',[SettingsController::class, 'store'])->name('setting.store');
     });
     
+    // Roles
     Route::prefix('Roles')->group(function () {
         Route::get('', [roleController::class, 'index'])->name('roles.index');
         Route::get('/create', [roleController::class, 'create'])->name('roles.create');
@@ -177,14 +180,25 @@ Route::get('/dashboard', function () {
         Route::get('delete/{id}', [roleController::class, 'destroy'])->name('roles.destroy');
     });
 
+    // Donation
     Route::group(['prefix' => 'Donation'], function(){
         Route::get('/index',[DonationController::class, 'index'])->name('donation.index');
         Route::get('/data',[DonationController::class, 'data'])->name('donation.data');
     });
+
+    // Report
     Route::group(['prefix' => 'Report'], function(){
         Route::get('/index',[ReportController::class, 'index'])->name('report.index');
         Route::get('/allotedStuent',[ReportController::class, 'allotedStuent'])->name('report.allotedStuent');
+        Route::get('/dueFees',[ReportController::class, 'dueFees'])->name('report.duefees');
+        Route::get('/dueFeesview',[ReportController::class, 'duefeesView'])->name('report.duefeesview');
+        Route::get('/bedRelease/{id}',[ReportController::class, 'bedRelease'])->name('beds.release');
     });
-// });
+
+    // Activity
+    Route::group(['prefix' => 'Activity_Log'], function(){
+        route::get('/',[ActivityController::class, 'index'])->name('log.index');
+        route::get('/index',[ActivityController::class, 'create'])->name('log.create');
+    });
 
 require __DIR__.'/auth.php';

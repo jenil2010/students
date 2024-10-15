@@ -52,6 +52,7 @@
                     <thead>
                         <tr>
                             <th></th>
+                            <th>Action</th>
                             <th>id</th>
                             <th>First Name</th>
                             <th>Middle Name</th>
@@ -60,7 +61,6 @@
                             <th>Address</th>
                             <th>DOB</th>
                             <th>Contact</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
 
@@ -108,6 +108,29 @@
                                 data: ''
                             },
                             {
+                                // Actions
+                                targets: -1,
+                                title: 'Actions',
+                                orderable: false,
+                                render: function(data, type, full, meta) {
+                                    var editUrl = '{{ route('students.edit', 'id') }}'.replace('id',
+                                        full
+                                        .id);
+                                    console.log(editUrl);
+                                    var deleteUrl = '{{ route('students.delete', 'id') }}'.replace(
+                                        'id',
+                                        full.id);
+                                    return (
+                                        `<button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"> Action</button>`+
+                                        `<ul class="dropdown-menu">`+
+                                            `<li><a class="dropdown-item" href="${editUrl}">Edit</a></li>`+
+                                            `<li><a class="dropdown-item" href="${deleteUrl}">Delete</a></li>`+
+                                        `</ul>`+
+                                        `</div>`
+                                    );
+                                }
+                            },
+                            {
                                 data: 'id'
                             },
                             {
@@ -131,33 +154,7 @@
                             {
                                 data: 'phone'
                             },
-                            {
-                                // Actions
-                                targets: -1,
-                                title: 'Actions',
-                                orderable: false,
-                                render: function(data, type, full, meta) {
-                                    var editUrl = '{{ route('students.edit', 'id') }}'.replace('id',
-                                        full
-                                        .id);
-                                    console.log(editUrl);
-                                    var deleteUrl = '{{ route('students.delete', 'id') }}'.replace(
-                                        'id',
-                                        full.id);
-                                    return (
-                                        '<div class="d-inline-block">' +
-                                        '<a href="javascript:;" class="btn btn-sm btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>' +
-                                        '<div class="dropdown-menu dropdown-menu-end m-0">' +
-                                        '<a href="javascript:;" class="dropdown-item">Details</a>' +
-                                        '<a href="javascript:;" class="dropdown-item">Archive</a>' +
-                                        '<div class="dropdown-divider"></div>' +
-                                        `<a href='${deleteUrl}' class="dropdown-item text-danger delete-record">Delete</a>` +
-                                        '</div>' +
-                                        '</div>' +
-                                        `<a href='${editUrl}' class="btn btn-sm btn-text-secondary rounded-pill btn-icon item-edit"><i class="mdi mdi-pencil-outline"></i></a>`
-                                    );
-                                }
-                            }
+                            
                         ],
                         columnDefs: [{
                             // For Responsive

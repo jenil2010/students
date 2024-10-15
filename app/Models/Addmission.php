@@ -5,13 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Addmission extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
     protected $table = 'addmission';
     protected $primarykey = 'id';
     protected $fillable = [
+        'student_id',
         'first_name',
         'middle_name',
         'last_name',
@@ -64,5 +68,30 @@ class Addmission extends Model
     }
     public function fees(): BelongsTo{
         return $this->belongsTo(Fees::class,'fees_id','id');
+    }
+
+    protected static $logAttributes = ['*'];
+    protected static $logFillable = true;
+    protected static $recordEvents = ['created', 'updated', 'deleted'];
+    protected static $logOnlyDirty = true;
+    protected static $logUnguarded = true;
+    protected static $logName = 'Admission';
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        if (Auth::user()) {
+            $userName = Auth::user()->name;
+        } else {
+            $userName = 'Super Admin';
+            # code...
+        }
+        
+
+        return LogOptions::defaults()
+            ->logOnly(['*'])
+            ->useLogName('Admission')
+            ->setDescriptionForEvent(function (string $eventName) use ($userName) {
+                return "{$userName} has {$eventName} Admissions";
+            });
     }
 }

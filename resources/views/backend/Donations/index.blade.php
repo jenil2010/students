@@ -195,6 +195,7 @@
                     <thead>
                         <tr>
                             <th></th>
+                            <th>Action</th>
                             <th>Id</th>
                             <th>Student Name</th>
                             <th>Gender</th>
@@ -205,7 +206,6 @@
                             <th>Admission Year</th>
                             <th>Transaction Number</th>
                             <th>Donation Type</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
 
@@ -237,6 +237,32 @@
                                 data: ''
                             },
                             {
+                                // Actions
+                                targets: -1,
+                                title: 'Actions',
+                                orderable: false,
+                                render: function(data, type, full, meta) {
+                                    var editUrl = '{{ route('addmission.edit', 'id') }}'.replace('id',
+                                        full
+                                        .id);
+                                    var idd = full.student_id;
+                                    console.log("idd :- ", idd);
+                                    $('#addmission_id').val(idd);
+                                    var deleteUrl = '{{ route('addmission.delete', 'id') }}'.replace(
+                                        'id',
+                                        full.id);
+                                    return (
+                                        `<button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"> Action</button>`+
+                                        `<ul class="dropdown-menu">`+
+                                            `<li><a class="dropdown-item" href="${editUrl}">Edit</a></li>`+
+                                            `<li><a class="dropdown-item" href="${deleteUrl}">Delete</a></li>`+
+                                            `<li><a class="dropdown-item" style="color:#828393" data-bs-toggle="modal" data-bs-target="#modalfees" data-student="${full.student_id}">Addmission Status</a></li>`+
+                                        `</ul>`+
+                                        `</div>`
+                                    );
+                                }
+                            },
+                            {
                                 data: 'id'
                             },
                             {
@@ -266,38 +292,7 @@
                             {
                                 data: 'donation_type'
                             },
-                            {
-                                // Actions
-                                targets: -1,
-                                title: 'Actions',
-                                orderable: false,
-                                render: function(data, type, full, meta) {
-                                    var editUrl = '{{ route('addmission.edit', 'id') }}'.replace('id',
-                                        full
-                                        .id);
-                                    var idd = full.student_id;
-                                    console.log("idd :- ", idd);
-                                    $('#addmission_id').val(idd);
-                                    var deleteUrl = '{{ route('addmission.delete', 'id') }}'.replace(
-                                        'id',
-                                        full.id);
-                                    return (
-                                        `<button type="button" class="btn btn-primary edit-btn" data-bs-toggle="modal" data-bs-target="#modalCenter" data-student="${full.student_id}">` +
-                                        `<i class="ri-calendar-line"></i>` +
-                                        `</button>` +
-                                        '<div class="d-inline-block">' +
-                                        '<a href="javascript:;" class="btn btn-sm btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>' +
-                                        '<div class="dropdown-menu dropdown-menu-end m-0">' +
-                                        '<a href="javascript:;" class="dropdown-item">Details</a>' +
-                                        '<a href="javascript:;" class="dropdown-item">Archive</a>' +
-                                        '<div class="dropdown-divider"></div>' +
-                                        `<a href='${deleteUrl}' class="dropdown-item text-danger delete-record">Delete</a>` +
-                                        '</div>' +
-                                        '</div>' +
-                                        `<a href='${editUrl}' class="btn btn-sm btn-text-secondary rounded-pill btn-icon item-edit"><i class="mdi mdi-pencil-outline"></i></a>`
-                                    );
-                                }
-                            }
+                            
                         ],
                         columnDefs: [{
                             // For Responsive

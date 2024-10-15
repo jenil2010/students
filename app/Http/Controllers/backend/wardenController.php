@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\wardens;
+use App\Repositories\WardenRepository;
 use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -13,12 +14,18 @@ use Yajra\DataTables\Facades\DataTables;
 
 class wardenController extends Controller
 {
+
+    private $WardenRepository;
+    public function __construct(WardenRepository $WardenRepository)
+    {
+        $this->WardenRepository = $WardenRepository;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $warden = wardens::all();
+        $warden = $this->WardenRepository->all();
         return view('backend.wardens.index',compact('warden'));
     }
 
@@ -69,7 +76,7 @@ class wardenController extends Controller
         $warden['user_id'] = $user->id;
         
         // dd($warden);
-        wardens::create($warden);
+        $this->WardenRepository->create($warden);
         return redirect()->route('warden.index')->with(['status' => 'Warden is Created Succesfully', 'alert-type' => 'success']);
     }
 
@@ -86,7 +93,7 @@ class wardenController extends Controller
      */
     public function edit(string $id)
     {
-        $warden = wardens::find($id);
+        $warden = $this->WardenRepository->find($id);
         $role = Role::where('name','warden')->first();
         // dd($warden);
         return view('backend.wardens.update',compact('warden','role'));
@@ -97,7 +104,7 @@ class wardenController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $warden = wardens::find($id);
+   
         $user = User::find($id);
         $params = $request->all();
 
@@ -127,7 +134,7 @@ class wardenController extends Controller
             'role_id' => $params['role_id'],
         ]);
 
-        $warden->update($params);
+        $this->WardenRepository->update($id,$params);
         // $user->update()
         return redirect()->route('warden.index')->with(['status' => 'Warden is Updated Succesfully', 'alert-type' => 'success']);
 
@@ -138,8 +145,8 @@ class wardenController extends Controller
      */
     public function destroy(string $id)
     {
-        $warden = wardens::find($id);
-        $warden->delete();
+       
+        $this->WardenRepository->delete($id);
         return redirect()->route('warden.index')->with(['status' => 'Warden is Deleted Succesfully' , 'alert-type' => 'danger']);
     }
 

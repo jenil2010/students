@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <div class="container-xxl h-100">
+   
         <div class="col-md">
             <div class="card">
                 @if (session('status'))
@@ -59,5 +59,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    
 @endsection

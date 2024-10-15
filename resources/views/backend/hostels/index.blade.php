@@ -23,13 +23,13 @@
                         <thead>
                             <tr>
                                 <th></th>
+                                <th>Action</th>
                                 <th>id</th>
                                 <th>Hostel Name</th>
                                 <th>Location</th>
                                 <th>Mobile Number</th>
                                 <th>Contact Number</th>
                                 <th>Warden</th>
-                                <th>Action</th>
                             </tr>
                         </thead>
 
@@ -42,75 +42,7 @@
 
 @section('script')
     <script>
-        /*  $(document).ready(function() {
-                                                                $('#warden').DataTable({
-                                                                    searching: true,
-                                                                        processing: true,
-                                                                        serverSide: true,
-                                                                        scrollX: true,
-                                                                        lengthMenu: [10, 25, 50, 100, 1000, 10000],
-                                                                        ajax: {
-                                                                            url: "{{ route('warden.index') }}",
-                                                                        },
-                                                                    // ajax: '{{ route('warden.data') }}',
-                                                                    columns: [{
-                                                                            data: ''
-                                                                        },
-                                                                        {
-                                                                            data: 'id'
-                                                                        },
-                                                                        {
-                                                                            data: 'first_name'
-                                                                        },
-                                                                        {
-                                                                            data: 'last_name'
-                                                                        },
-                                                                        {
-                                                                            data: 'email'
-                                                                        },
-                                                                        {
-                                                                            data: 'address'
-                                                                        },
-                                                                        {
-                                                                            data: 'dob'
-                                                                        },
-                                                                        {
-                                                                            data: 'phone'
-                                                                        },
-                                                                        {
-                                                                            data: 'gender'
-                                                                        },
-                                                                        {
-                                                                            data: 'status'
-                                                                        },
-                                                                        {
-                                                                            data: 'experience'
-                                                                        },
-                                                                        {
-                                                                            data: 'qualification'
-                                                                        },
-                                                                        {
-                                                                            data: null,
-                                                                            render: function(data, type, full, meta) {
-                                                                                var editUrl = '{{ route('warden.edit', ':id') }}'.replace(':id', full
-                                                                                    .id);
-                                                                                var deleteUrl = '{{ route('warden.delete', ':id') }}'.replace(':id',
-                                                                                    full
-                                                                                    .id);
-                                                                            }
-
-                                                                            `<a href="${editUrl}" class="btn btn-primary btn-sm pr-2">Edit</a>`,
-                                                                            `<a href="${deleteUrl}" class="btn btn-danger btn-sm">Delete</a>`
-                                                                        }
-                                                                    ],
-                                                                    dom: 'Bfrtip',
-                                                                    buttons: [{
-                                                                        extend: 'collection',
-                                                                        text: 'Export',
-                                                                        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
-                                                                    }]
-                                                                });
-                                                            }); */
+      
 
         $(document).ready(function() {
 
@@ -132,6 +64,27 @@
                             data: ''
                         },
                         {
+                            // Actions
+                            targets: -1,
+                            title: 'Actions',
+                            orderable: false,
+                            render: function(data, type, full, meta) {
+                                var editUrl = '{{ route('hostel.edit', 'id') }}'.replace('id', full
+                                    .id);
+                                console.log(editUrl);
+                                var deleteUrl = '{{ route('hostel.delete', 'id') }}'.replace('id',
+                                    full.id);
+                                return (
+                                    `<button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"> Action</button>`+
+                                        `<ul class="dropdown-menu">`+
+                                            `<li><a class="dropdown-item" href="${editUrl}">Edit</a></li>`+
+                                            `<li><a class="dropdown-item" href="${deleteUrl}">Delete</a></li>`+
+                                        `</ul>`+
+                                        `</div>`
+                                );
+                            }
+                        },
+                        {
                             data: 'id'
                         },
                         {
@@ -149,31 +102,7 @@
                         {
                             data: `warden.first_name`
                         },
-                        {
-                            // Actions
-                            targets: -1,
-                            title: 'Actions',
-                            orderable: false,
-                            render: function(data, type, full, meta) {
-                                var editUrl = '{{ route('hostel.edit', 'id') }}'.replace('id', full
-                                    .id);
-                                console.log(editUrl);
-                                var deleteUrl = '{{ route('hostel.delete', 'id') }}'.replace('id',
-                                    full.id);
-                                return (
-                                    '<div class="d-inline-block">' +
-                                    '<a href="javascript:;" class="btn btn-sm btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>' +
-                                    '<div class="dropdown-menu dropdown-menu-end m-0">' +
-                                    '<a href="javascript:;" class="dropdown-item">Details</a>' +
-                                    '<a href="javascript:;" class="dropdown-item">Archive</a>' +
-                                    '<div class="dropdown-divider"></div>' +
-                                    `<a href='${deleteUrl}' class="dropdown-item text-danger delete-record">Delete</a>` +
-                                    '</div>' +
-                                    '</div>' +
-                                    `<a href='${editUrl}' class="btn btn-sm btn-text-secondary rounded-pill btn-icon item-edit"><i class="mdi mdi-pencil-outline"></i></a>`
-                                );
-                            }
-                        }
+                        
                     ],
                     columnDefs: [{
                         // For Responsive

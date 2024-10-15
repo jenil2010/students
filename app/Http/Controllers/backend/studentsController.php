@@ -19,7 +19,7 @@ class studentsController extends Controller
     public function index()
     {
         $country = country::all();
-        return view('backend.students.index',compact('country'));
+        return view('backend.students.index',data: compact('country'));
     }
 
     /**
@@ -148,22 +148,6 @@ class studentsController extends Controller
     }
 
     public function data(Request $request){
-        // $query = Students::query();
-
-        // Apply filters if they are provided
-        // if ($request->has('gender') && !empty($request->gender)) {
-        //     $query->where('gender', $request->gender);
-        // }
-        
-        // if ($request->has('country_id') && !empty($request->country_id)) {
-        //     $query->where('country_id', $request->country_id);
-        //     // dd($query);
-        // }
-        // $data = Students::where('gender', $gender)
-        //              ->where('country_id', $country_id)
-        //              ->get();
-    
-        // Fetch data from the query
         $genderId = $request->gender_id;
         $countryId = $request->country_id;
         $students =  Students::when($genderId, function ($query) use ($genderId) {
@@ -173,14 +157,7 @@ class studentsController extends Controller
             return $query->where('country_id', $countryId);
           })
           ->orderBy("created_at", "desc")->get();
-        // $students = Students::with()->get();
-    
-        // Prepare data for DataTables
-        // $data = [
-        //     'data' => $data,
-        //     'recordsTotal' => $data->count(),
-        //     'recordsFiltered' => $data->count(),
-        // ];
+        
     
         return DataTables::of($students)->make();
     

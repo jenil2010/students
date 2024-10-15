@@ -2,7 +2,7 @@
 @section('title', 'Beds')
 
 @section('content')
-    <div class="container-xxl d-flex">
+    
         <div class="col-md">
             <div class="card">
                 <h5 class="card-header">Beds Form</h5>
@@ -78,7 +78,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    
 @endsection
 @section('script')
     <script>

@@ -9,7 +9,7 @@
         $user = '';
     }
 @endphp
-    <div class="container-xxl d-flex">
+    
         <div class="col-md">
             <div class="card">
                 <h5 class="card-header">complain Form</h5>
@@ -72,5 +72,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    
 @endsection

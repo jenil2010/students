@@ -3,14 +3,17 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Auth;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable , LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -49,7 +52,7 @@ class User extends Authenticatable
 
     public function role(): BelongsTo
     {
-        return $this->belongsTo(Role::class,'id', 'role_id');
+        return $this->belongsTo(Role::class, 'role_id','id');
     }
 
     public function roles()
@@ -81,5 +84,24 @@ class User extends Authenticatable
     public function getrole()
     {
         return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    protected static $logAttributes = ['*'];
+    protected static $logFillable = true;
+    protected static $recordEvents = ['created', 'updated', 'deleted'];
+    protected static $logOnlyDirty = true;
+    protected static $logUnguarded = true;
+    protected static $logName = 'User';
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        $userName = Auth::user()->name;
+
+        return LogOptions::defaults()
+            ->logOnly(['*'])
+            ->useLogName('User')
+            ->setDescriptionForEvent(function (string $eventName) use ($userName) {
+                return "{$userName} has {$eventName} User";
+            });
     }
 }

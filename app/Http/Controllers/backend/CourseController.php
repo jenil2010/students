@@ -4,6 +4,7 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\course;
+use App\Repositories\CourseRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
@@ -11,12 +12,18 @@ use Yajra\DataTables\Facades\DataTables;
 
 class CourseController extends Controller
 {
+
+    private $CourseRepository;
+    public function __construct(CourseRepository $CourseRepository)
+    {
+        $this->CourseRepository = $CourseRepository;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $course = course::all();
+        $course = $this->CourseRepository->all();
         return view('backend.course.index',compact('course'));
     }
 
@@ -46,7 +53,7 @@ class CourseController extends Controller
             return redirect()->back()->withErrors($validation)->withInput();
         }
 
-        course::create($params);
+        $this->CourseRepository->create($params);
         return redirect()->route('course.index')->with(['status' => 'Course Created Successfully.' , 'alert-type' => 'success']);
     }
 
@@ -63,7 +70,7 @@ class CourseController extends Controller
      */
     public function edit(string $id)
     {
-        $course = course::find($id);
+        $course = $this->CourseRepository->find($id);
         // dd($course);
         return view('backend.course.update', compact('course','id'));
     }
@@ -73,7 +80,7 @@ class CourseController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $course = course::find($id);
+        
 
         $params = $request->all();
 
@@ -88,7 +95,7 @@ class CourseController extends Controller
             return redirect()->back()->withErrors($validation)->withInput();
         }
 
-        $course->update($params);
+        $this->CourseRepository->update($id,$params);
 
         return redirect()->route('course.index')->with(['status' => 'Course Updated Succesfully', 'alert-type' => 'success']);
 
@@ -99,17 +106,14 @@ class CourseController extends Controller
      */
     public function destroy(string $id)
     {
-        $course = course::find($id);
-        $course->delete();
+        $this->CourseRepository->delete($id);
         return redirect()->route('course.index')->with(['status' => 'Course Deleted Successfully.' , 'alert-type' => 'danger']);
     }
 
     public function data()
     {
-
-        
-           
-        $course = course::query()->get();
+  
+        $course = $this->CourseRepository->data();
         return DataTables::of($course)->make(true);
     }
     

@@ -5,18 +5,24 @@ namespace App\Http\Controllers\backend;
 use App\Http\Controllers\Controller;
 use App\Models\hostels;
 use App\Models\wardens;
+use App\Repositories\HostelRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class hostelController extends Controller
 {
+    private $HostelRepository;
+    public function __construct(HostelRepository $HostelRepository)
+    {
+        $this->HostelRepository = $HostelRepository;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $hostel = hostels::all();
+        $hostel = $this->HostelRepository->all();
         $warden = wardens::all();
         return view('backend.hostels.index',compact('hostel','warden'));
     }
@@ -50,7 +56,7 @@ class hostelController extends Controller
             return redirect()->back()->withErrors($validation)->withInput();
         }
 
-        hostels::create($hostel);
+        $this->HostelRepository->create($hostel);
         return redirect()->route('hostel.index')->with(['status' => 'Hostel is Created Succesfully' , 'alert-type' => 'success']);
     }
 
@@ -67,7 +73,7 @@ class hostelController extends Controller
      */
     public function edit(Request $request,string $id)
     {
-        $hostel = hostels::find($id);
+        $hostel = $this->HostelRepository->find($id);
         $warden = wardens::all();
         return view('backend.hostels.update',compact('hostel','warden','id'));
     }
@@ -77,7 +83,7 @@ class hostelController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $hostel = hostels::find($id);
+        
 
         $params = $request->all();
 
@@ -94,7 +100,7 @@ class hostelController extends Controller
             return redirect()->back()->withErrors($validation)->withInput();
         }
 
-        $hostel->update($params);
+        $this->HostelRepository->update($id,$params);
         return redirect()->route('hostel.index')->with(['status' => 'Hostel is Updated Succesfully' , 'alert-type' => 'success']);
 
     }
@@ -104,17 +110,14 @@ class hostelController extends Controller
      */
     public function destroy(string $id)
     {
-        $hostel = hostels::find($id);
-        $hostel->delete();
+        $this->HostelRepository->delete($id);
         return redirect()->route('hostel.index')->with(['status' => 'Hostel is Deleted Succesfully' , 'alert-type' => 'danger']);
 
     }
     public function data()
     {
-        $warden = wardens::all();
-        $hostel = hostels::with('warden')->get();
+        $hostel = $this->HostelRepository->data();
         return DataTables::of($hostel)->make(true);
-        // return redirect()->route('hostel.index');
 
     }
 }

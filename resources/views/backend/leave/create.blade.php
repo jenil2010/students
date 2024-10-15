@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <div class="container-xxl h-100">
+    {{-- <div class="container-xxl h-100"> --}}
         <div class="col-md">
             <div class="card">
                 @if (session('status'))
